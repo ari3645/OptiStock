@@ -1,0 +1,40 @@
+<?php
+require_once 'config.php'; // fichier de connexion PDO
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $numero = $_POST['numero_commande'];
+    $createur = intval($_POST['id_createur']);
+    $client = intval($_POST['client_id']);
+    $lot = intval($_POST['lot_id']);
+    $quantite = intval($_POST['quantite_lot']);
+    $prix = floatval($_POST['prix_total']);
+    $statut = $_POST['statut'];
+    $facture = !empty($_POST['facture_id']) ? intval($_POST['facture_id']) : null;
+
+    try {
+        $sql = "INSERT INTO Commande (
+                    Numero_Commande, Id_Createur_Commande, Client_ID,
+                    Lot_ID, Quantite_Lot, Prix_Total_Commande, Statut, Facture_ID
+                ) VALUES (
+                    :numero, :createur, :client,
+                    :lot, :quantite, :prix, :statut, :facture
+                )";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':numero', $numero);
+        $stmt->bindParam(':createur', $createur, PDO::PARAM_INT);
+        $stmt->bindParam(':client', $client, PDO::PARAM_INT);
+        $stmt->bindParam(':lot', $lot, PDO::PARAM_INT);
+        $stmt->bindParam(':quantite', $quantite, PDO::PARAM_INT);
+        $stmt->bindParam(':prix', $prix);
+        $stmt->bindParam(':statut', $statut);
+        $stmt->bindParam(':facture', $facture, $facture === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
+
+        $stmt->execute();
+        echo "✅ Commande créée avec succès.";
+    } catch (PDOException $e) {
+        echo "❌ Erreur : " . htmlspecialchars($e->getMessage());
+    }
+} else {
+    echo "⚠️ Requête non autorisée.";
+}
