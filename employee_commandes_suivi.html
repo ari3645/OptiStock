@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mon panier</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <div class="cart-container">
+
+    <header class="cart-header">
+      <a href="login.html" class="logout-btn">Déconnexion</a>
+      <h1 class="cart-title">Mon panier</h1>
+    </header>
+
+    <section class="summary-card">
+      <h2>Résumé de la commande</h2>
+      <div class="summary-row">
+        <span>Items total</span><span>128.78 €</span>
+      </div>
+      <div class="summary-row">
+        <span>Frais de livraison</span><span>5.78 €</span>
+      </div>
+    </section>
+
+    <section class="items-list">
+      <div class="item-card">
+        <img src="assets/images/robe.png" alt="Robe rose">
+        <div class="item-details">
+          <h3>Robe rose</h3>
+          <p class="price">
+            <span class="current">99.99 €</span>
+            <span class="old">119.99 €</span>
+          </p>
+          <div class="item-actions">
+            <button class="remove-btn">Supprimer</button>
+            <div class="quantity">
+              <button>-</button>
+              <span>1</span>
+              <button>+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-card">
+        <img src="assets/images/jupe.png" alt="Jupe">
+        <div class="item-details">
+          <h3>Jupe</h3>
+          <p class="price">
+            <span class="current">89.99 €</span>
+            <span class="old">109.99 €</span>
+          </p>
+          <div class="item-actions">
+            <button class="remove-btn">Supprimer</button>
+            <div class="quantity">
+              <button>-</button>
+              <span>1</span>
+              <button>+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="checkout-card">
+      <div class="subtotal-row">
+        <span>Subtotal</span>
+        <span>134.56 €</span>
+      </div>
+      <a href="#" class="checkout-btn">Checkout</a>
+    </section>
+
+    <p class="help">
+      Besoin d'aide ? <a href="#">Consultez notre centre d'aide</a>
+    </p>
+  </div>
+
+</body>
+</html>

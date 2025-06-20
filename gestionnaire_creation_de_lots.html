@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Création de lots - Gestionnaire VDRM</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+<body>
+  <div class="container gestionnaire_creation_de_lots_page">
+    <header class="header">
+  <a href="login.html" class="logout-btn">Déconnexion</a>
+</header>
+
+    <h1 class="title">Création de lots</h1>
+
+    <form class="lot-form">
+      <div class="lot-item">
+        <label>Jupe</label>
+        <input type="number" min="0" value="0" name="jupe_qty">
+      </div>
+
+      <div class="lot-item">
+        <label>Robe</label>
+        <input type="number" min="0" value="0" name="robe_qty">
+      </div>
+
+      <div class="lot-item">
+        <label>Accessoires</label>
+        <input type="number" min="0" value="0" name="accessoire_qty">
+      </div>
+
+      <button type="submit" class="btn primary">Créer le lot</button>
+    </form>
+
+    <p class="help">
+      Besoin d'aide ? <a href="#">Consultez notre centre d'aide</a>
+    </p>
+  </div>
+
+ <script src="assets/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #FFF0F5;
+  color: #454B60;
+  margin: 0;
+}
+
+.container {
+  max-width: 428px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #FFC1C1;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.subtitle, .section-title {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo, .success-icon {
+  display: block;
+  margin: 0 auto 20px;
+  width: 200px;
+}
+
+.form, .lot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+select {
+  padding: 10px;
+  height: 45px;
+  border: 1px solid #C9F7F5;
+  border-radius: 5px;
+  background-color: white;
+}
+
+button, .btn {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn.primary {
+  background-color: #FFC1C1;
+  color: white;
+}
+
+.btn.secondary {
+  background-color: transparent;
+  border: 2px solid #FFC1C1;
+  color: #FFC1C1;
+}
+
+.help {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.help a {
+  color: #454B60;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.menu-list, .orders-list, .invoice-list, .stock-grid, .supplier-orders, .orders-prep-list, .reception-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.menu-list li, .order-card, .invoice-card, .stock-card, .supplier-card, .prep-card, .reception-card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stock-img {
+  width: 100%;
+  max-width: 100px;
+  margin-bottom: 10px;
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.logout-btn {
+  background-color: #FFC1C1;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+.register-photo-page .photo-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.option {
+  text-align: center;
+}
+
+.photo-icon {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+}
+
+.photo-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.profile-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-icon {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.profil-link {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 10px 0 20px 0; /* top, right, bottom, left */
+  color: #454B60;
+}
+
+.edit-photo-btn {
+  padding: 8px 16px;
+  background-color: #C9F7F5;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #454B60;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.logout-btn {
+  background-color: #FFC1C1;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Lien "Mon profil" à gauche */
+.profil-link {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  text-decoration: none;
+  margin-bottom: 20px;
+  color: #454B60;
+}
+
+/* Sections */
+.section-title {
+  font-size: 16px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.apropos {
+  margin-top: 40px;
+}
+
+
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+
+.link-title {
+  color: #454B60;
+  text-decoration: none;
+  font-weight: 500;
+}
+.link-title:hover {
+  text-decoration: underline;
+}
+
+.section-title {
+  font-size: 16px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.apropos {
+  margin-top: 40px;
+}
+
+.link-title {
+  color: #454B60;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link-title:hover {
+  text-decoration: underline;
+}
+
+.cart-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #FFF0F5;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-title {
+  font-size: 24px;
+  color: #F6A9A9;
+  margin: 0;
+}
+
+.summary-card,
+.checkout-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.summary-row,
+.subtotal-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.items-list {
+  margin-top: 20px;
+}
+
+.item-card {
+  display: flex;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.item-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.item-details h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+
+.price {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.price .old {
+  text-decoration: line-through;
+  color: #999;
+  margin-left: 8px;
+}
+
+.item-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.remove-btn {
+  background-color: transparent;
+  border: none;
+  color: #f77;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quantity button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: #FFC1C1;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkout-btn {
+  display: block;
+  text-align: center;
+  background-color: #FFC1C1;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 12px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.help {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+}
