@@ -1,0 +1,152 @@
+/* reset des familles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #FFF0F5;
+  color: #333;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* menu latéral aka sidebar */
+.sidebar {
+  width: 240px;
+  background-color: #FFC1C1;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+}
+
+.logo {
+  width: 160px;
+  margin: 0 auto 30px auto;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #E5C3F1;
+  color: #333;
+}
+
+/* contenu principal */
+.main-content {
+  margin-left: 240px;
+  padding: 40px;
+  flex: 1;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.stock-table-section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stock-table thead tr {
+  background-color: #FFC1C1;
+  color: white;
+  text-align: left;
+}
+
+.stock-table th,
+.stock-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.stock-table tbody tr:hover {
+  background-color: #FFF7FA;
+}
+
+.btn-edit {
+  padding: 8px 12px;
+  background-color: #C9F7F5;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.btn-edit:hover {
+  background-color: #b0ece9;
+}
+
+/* responsive vibes pour petit écran */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    position: static;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .stock-table th, .stock-table td {
+    padding: 8px;
+  }
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+/* fixing les inputs et selects invisibles  */
+.stock-table input[type="text"],
+.stock-table input[type="number"],
+.stock-table select {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 14px;
+  color: #333; /* to be able to see it cuz its hidden */
+  background-color: white; /* pr virer le rose hérité */
+  appearance: none;
+}
+
+
+
+
+

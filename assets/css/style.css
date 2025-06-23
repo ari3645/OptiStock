@@ -1,0 +1,144 @@
+/* ------------------------
+   STYLE.CSS POUR VDRM LANDING
+   Responsive, doux, sexy, pastel 🌸
+------------------------ */
+
+:root {
+  --rose-pastel: #FADADD;
+  --rose-saumon: #FFC1C1;
+  --lilas: #E5C3F1;
+  --blanc-rose: #FFF0F5;
+  --menthe: #C9F7F5;
+  --gris-foncé: #454B60;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--blanc-rose);
+  color: var(--gris-foncé);
+  line-height: 1.6;
+}
+
+/* 🌐 Barre de navigation */
+.navbar {
+  background-color: var(--rose-saumon);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  font-weight: 600;
+  font-size: 24px;
+  color: white;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-nav {
+  background-color: var(--menthe);
+  padding: 8px 16px;
+  border-radius: 6px;
+  color: var(--gris-foncé);
+}
+
+/* 💌 Hero section */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(to right, var(--rose-pastel), var(--lilas));
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.btn.primary {
+  background-color: var(--rose-saumon);
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ✨ Features */
+.features {
+  padding: 60px 20px;
+  background-color: white;
+  text-align: center;
+}
+
+.features h2 {
+  margin-bottom: 40px;
+  font-size: 2rem;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.feature-card {
+  background-color: var(--menthe);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* 📬 Footer */
+.footer {
+  background-color: var(--rose-pastel);
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: var(--gris-foncé);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* 📱 Responsive stuff */
+@media (min-width: 768px) {
+  .hero h1 {
+    font-size: 3.2rem;
+  }
+  .hero p {
+    font-size: 1.3rem;
+  }
+  .btn.primary {
+    font-size: 1rem;
+  }
+}
