@@ -47,6 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
     <p class="error-message"><?= htmlspecialchars($error) ?></p>
 </div>
+<a href="ajout_employe.php">
+    <button style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Ajouter un employé
+    </button>
+</a>
 
 <script>
     function validateForm() {
