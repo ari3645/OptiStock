@@ -1,58 +1,78 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9f0f7; /* Bleu très clair, fond doux */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+.login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    transition: box-shadow 0.3s ease;
+}
 
-        .login-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-        }
+.login-container:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50; /* Bleu-gris foncé */
+}
 
-        label {
-            display: block;
-            margin-top: 10px;
-            margin-bottom: 5px;
-        }
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #34495e; /* Gris-bleu foncé */
+}
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
 
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            margin-top: 15px;
-            cursor: pointer;
-        }
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db; /* Bleu clair */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
 
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
+input[type="submit"]:hover {
+    background-color: #2980b9; /* Bleu plus foncé au survol */
+}
 
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-top: 15px;
-        }
+.error-message {
+    color: #e74c3c; /* Rouge vif pour l'erreur */
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto 20px auto; /* Centré et marge en bas */
+    width: 120px; /* Tu peux ajuster selon la taille du logo */
+    height: auto;
+}

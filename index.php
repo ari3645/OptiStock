@@ -34,17 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <div class="login-container">
+    <img src="images/logo.png" alt="Logo" class="logo">
     <h2>Connexion</h2>
     <form id="loginForm" method="POST" onsubmit="return validateForm()">
-        <label>Login:</label>
+        <label for="login">Login:</label>
         <input type="text" name="login" id="login" required>
 
-        <label>Mot de passe:</label>
+        <label for="password">Mot de passe:</label>
         <input type="password" name="password" id="password" required>
 
         <input type="submit" value="Se connecter">
     </form>
-    <p class="error-message"><?= $error ?></p>
+    <p class="error-message"><?= htmlspecialchars($error) ?></p>
 </div>
 
 <script>
