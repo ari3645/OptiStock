@@ -2,17 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Suivi des commandes</title>
+    <title>Visualisation des stocks</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Badges de statut */
-        .badge-grey { background-color: #888; color: white; padding: 4px 8px; border-radius: 4px; }
-        .badge-orange { background-color: orange; color: white; padding: 4px 8px; border-radius: 4px; }
-        .badge-green { background-color: green; color: white; padding: 4px 8px; border-radius: 4px; }
-        .badge-blue { background-color: royalblue; color: white; padding: 4px 8px; border-radius: 4px; }
-        .badge-default { background-color: #ccc; color: black; padding: 4px 8px; border-radius: 4px; }
-
-        form.inline { display: inline; margin: 0; }
+        .rupture { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -31,7 +24,8 @@
             <li><a href="creer_commande.php">Créer Commande</a></li>
             <li><a href="realisation_commande.php">Réaliser Commande</a></li>
             <li><a href="reception_fournisseur.php">Réception Fournisseur</a></li>
-            <li><a href="suivi_commandes.php" class="active">Suivi Commandes</a></li>
+            <li><a href="suivi_commandes.php">Suivi Commandes</a></li>
+            <li><a href="visualisation_stocks.php" class="active">Stocks</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
@@ -39,64 +33,62 @@
 </nav>
 
 <div class="container">
-    <h2>Suivi des commandes</h2>
+    <h2>Stocks dans l'entrepôt</h2>
 
-    <!-- Filtre par statut -->
-    <form method="get" class="form-card search-form" style="margin-bottom: 20px;">
-        <label>Filtrer par statut :</label>
-        <select name="statut" onchange="this.form.submit()">
-            <option value="0">-- Tous les statuts --</option>
-            <!-- <?php foreach ($statuts as $statut): ?>
-                <option value="<?= $statut['id'] ?>" <?= ($statut['id'] == $filtre_statut ? 'selected' : '') ?>>
-                    <?= htmlspecialchars($statut['nom']) ?>
-                </option>
-            <?php endforeach; ?> -->
-        </select>
+    <!-- Formulaire de recherche -->
+    <form method="GET" class="form-card search-form" style="margin-bottom: 20px;">
+        <input type="text" name="recherche" placeholder="Recherche globale" class="search-input">
+        <button type="submit" class="btn search-button">Rechercher</button>
     </form>
 
-    <!-- Tableau des commandes -->
+    <!-- Vêtements -->
+    <h3>Vêtements individuels</h3>
     <table class="user-table">
-        <thead>
         <tr>
-            <th>Nom commande</th>
-            <th>Client</th>
-            <th>Adresse</th>
-            <th>Statut</th>
-            <th>Modifier</th>
+            <th>Nom</th>
+            <th>Taille</th>
+            <th>Couleur</th>
+            <th>Quantité</th>
+            <th>Emplacement</th>
         </tr>
-        </thead>
-        <tbody>
-        <!-- <?php if (empty($commandes)): ?>
-            <tr><td colspan="5">Aucune commande trouvée.</td></tr>
-        <?php else: ?>
-            <?php foreach ($commandes as $commande): ?>
-                <tr>
-                    <td><?= htmlspecialchars($commande['commande_nom']) ?></td>
-                    <td><?= htmlspecialchars($commande['client_nom']) ?></td>
-                    <td><?= nl2br(htmlspecialchars($commande['adresse'])) ?></td> -->
-                    <td>
-                        <!-- <span class="A_mettre">
-                            <?= htmlspecialchars($commande['statut_nom']) ?>
-                        </span> -->
-                    </td>
-                    <td>
-                        <form method="post" class="inline">
-                            <input type="hidden" name="commande_id" value="<?= $commande['id'] ?>">
-                            <select name="statut_id">
-                                <!-- <?php foreach ($statuts as $s): ?>
-                                    <option value="<?= $s['id'] ?>" <?= ($s['id'] == $commande['statut_id'] ? 'selected' : '') ?>>
-                                        <?= htmlspecialchars($s['nom']) ?>
-                                    </option>
-                                <?php endforeach; ?> -->
-                            </select>
-                            <button type="submit" class="btn">🆗</button>
-                        </form>
-                    </td>
-                </tr>
-            <!-- <?php endforeach; ?>
-        <?php endif; ?> -->
-        </tbody>
+        <!-- <?php foreach ($vetements as $vetement): ?>
+            <tr>
+                <td><?= htmlspecialchars($vetement['nom']) ?></td>
+                <td><?= $vetement['taille'] ?></td>
+                <td><?= $vetement['couleur'] ?></td>
+                <td class="<?= $vetement['quantite'] == 0 ? 'rupture' : '' ?>">
+                    <?= $vetement['quantite'] == 0 ? 'Rupture de stock' : $vetement['quantite'] ?>
+                </td>
+                <td><?= htmlspecialchars($vetement['emplacement'] ?? '-') ?></td>
+            </tr>
+        <?php endforeach; ?> -->
     </table>
+
+    <!-- Lots -->
+    <h3>Lots créés</h3>
+    <table class="user-table">
+        <tr>
+            <th>Nom du lot</th>
+            <th>Unités par lot</th>
+            <th>Quantité (lots)</th>
+            <th>Emplacement</th>
+        </tr>
+        <!-- <?php if (empty($lots)): ?>
+            <tr><td colspan="4">Aucun lot enregistré.</td></tr>
+        <?php else: ?>
+            <?php foreach ($lots as $lot): ?>
+                <tr>
+                    <td><?= htmlspecialchars($lot['nom']) ?></td>
+                    <td><?= (int)$lot['unites_par_lot'] ?></td>
+                    <td><?= (int)$lot['quantite'] ?></td>
+                    <td><?= htmlspecialchars($lot['emplacement']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?> -->
+    </table>
+
+    <br>
+    <a href="dashboard.php" class="btn-secondary" style="display: inline-block;">⬅ Retour au tableau de bord</a>
 </div>
 
 </body>
