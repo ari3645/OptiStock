@@ -1,78 +1,148 @@
 <?php
 
-session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    $_SESSION['user_id'] = 1; // ID fictif
-    $_SESSION['role'] = 'manager'; // Rôle fictif
-}
-
 require_once 'config/config.php';
 require_once 'includes/functions.php';
 
-$error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $login = $_POST['login'];
-    $password = $_POST['password'];
-
-    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE login = ?");
-    $stmt->execute([$login]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['mot_de_passe'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role'] = $user['role'];
-        redirect_by_role($user['role']);
-    } else {
-        $error = "Identifiants incorrects.";
-    }
+if (!is_logged_in()) {
+    header("Location: index.php");
+    exit;
 }
+
+$success = '';
+$error = '';
+
+$roles = ['manager', 'employe', 'gestionnaire', 'commercial'];
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     $login = trim($_POST['login'] ?? '');
+//     $mot_de_passe = $_POST['mot_de_passe'] ?? '';
+//     $role = $_POST['role'] ?? '';
+//     $id_reference = (int)($_POST['id_reference'] ?? 0);
+
+//     if ($login === '' || $mot_de_passe === '' || $role === '' || $id_reference === 0) {
+//         $error = "Tous les champs sont obligatoires.";
+//     } elseif (!in_array($role, $roles)) {
+//         $error = "Rôle invalide.";
+//     } elseif (
+//         strlen($mot_de_passe) < 8 ||
+//         !preg_match('/[A-Z]/', $mot_de_passe) ||
+//         !preg_match('/[0-9]/', $mot_de_passe)
+//     ) {
+//         $error = "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.";
+//     } else {
+//         $stmt = $pdo->prepare("SELECT id FROM utilisateur WHERE login = ?");
+//         $stmt->execute([$login]);
+//         if ($stmt->fetch()) {
+//             $error = "Ce login est déjà utilisé.";
+//         } else {
+//             $hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+//             $stmt = $pdo->prepare("INSERT INTO utilisateur (login, mot_de_passe, role, id_reference) VALUES (?, ?, ?, ?)");
+//             $stmt->execute([$login, $hash, $role, $id_reference]);
+//             $success = "Nouvel utilisateur créé avec succès.";
+//         }
+//     }
+// }
+
+// $utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajout d'un utilisateur</title>
     <link rel="stylesheet" href="css/style.css">
-    <title>Connexion</title>
-    
 </head>
 <body>
 
-<div class="login-container">
-    <img src="images/logo.png" alt="Logo" class="logo">
-    <h2>Connexion</h2>
-    <form id="loginForm" method="POST" onsubmit="return validateForm()">
-        <label for="login">Login:</label>
-        <input type="text" name="login" id="login" required>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <!-- Logo + Nom -->
+        <div class="navbar-brand">
+            <img src="images/logo.png" alt="Logo OptiStock" class="navbar-logo-img">
+            <a href="index.php" class="navbar-logo">OptiStock</a>
+        </div>
 
-        <label for="password">Mot de passe:</label>
-        <input type="password" name="password" id="password" required>
+        <!-- Menu -->
+        <ul class="navbar-menu">
+            <li><a href="index.php">Accueil</a></li>
+            <li><a href="ajout_employe.php" class="active">Ajouter Employé</a></li>
+            <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
+            <li><a href="logout.php">Déconnexion</a></li>
+        </ul>
+    </div>
+</nav>
 
-        <input type="submit" value="Se connecter">
-    </form>
-    <p class="error-message"><?= htmlspecialchars($error) ?></p>
+<!-- Contenu principal -->
+<div class="container">
+    <h2>Créer un utilisateur</h2>
+
+    <!-- Message de succès ou d'erreur -->
+    <?php if ($success): ?>
+        <p class="message-success"><?= $success ?></p>
+    <?php elseif ($error): ?>
+        <p class="message-error"><?= $error ?></p>
+    <?php endif; ?>
+
+    <!-- Nouveau wrapper pour organiser les colonnes -->
+    <div class="flex-wrapper">
+
+        <!-- Formulaire à gauche -->
+        <div class="form-section">
+            <form method="POST" class="form-card">
+                <label>Login *</label>
+                <input type="text" name="login" required value="<?= htmlspecialchars($_POST['login'] ?? '') ?>">
+
+                <label>Mot de passe *</label>
+                <input type="password" name="mot_de_passe" required>
+                <small>Doit contenir au moins 8 caractères, une majuscule et un chiffre.</small>
+
+                <label>Rôle *</label>
+                <select name="role" required>
+                    <option value="">-- Sélectionner un rôle --</option>
+                    <?php foreach ($roles as $r): ?>
+                        <option value="<?= $r ?>" <?= $r == ($_POST['role'] ?? '') ? 'selected' : '' ?>>
+                            <?= ucfirst($r) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+                <label>ID de référence *</label>
+                <input type="number" name="id_reference" min="1" required value="<?= htmlspecialchars($_POST['id_reference'] ?? '') ?>">
+
+                <button type="submit" class="btn">Créer l'utilisateur</button>
+            </form>
+        </div>
+
+        <!-- Liste utilisateurs à droite -->
+        <div class="table-section">
+            <h3>Utilisateurs existants</h3>
+            <table class="user-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Login</th>
+                    <th>Rôle</th>
+                    <th>ID Référence</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- <?php foreach ($utilisateurs as $u): ?>
+                    <tr>
+                        <td><?= $u['id'] ?></td>
+                        <td><?= htmlspecialchars($u['login']) ?></td>
+                        <td><?= htmlspecialchars($u['role']) ?></td>
+                        <td><?= htmlspecialchars($u['id_reference']) ?></td>
+                    </tr>
+                <?php endforeach; ?> -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </div>
-<a href="ajout_employe.php">
-    <button style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        Ajouter un employé
-    </button>
-</a>
-
-<script>
-    function validateForm() {
-        const login = document.getElementById('login').value.trim();
-        const password = document.getElementById('password').value.trim();
-
-        if (login === '' || password === '') {
-            alert('Veuillez remplir tous les champs.');
-            return false;
-        }
-        return true;
-    }
-</script>
 
 </body>
 </html>

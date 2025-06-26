@@ -1,10 +1,6 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #FFF0F5; /* Thyon Blanc */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #FFF0F5;
     margin: 0;
 }
 
@@ -77,15 +73,9 @@ input[type="submit"]:hover {
     font-weight: bold;
 }
 
-.logo {
-    display: block;
-    margin: 0 auto 20px auto; /* Centré et marge en bas */
-    width: 120px; /* Tu peux ajuster selon la taille du logo */
-    height: auto;
-}
 
 .navbar {
-    background-color: #333;
+    background-color: #E5C3F1; /* Spring Lilac */
     padding: 15px 30px;
 }
 
@@ -93,6 +83,17 @@ input[type="submit"]:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo-img {
+    width: 40px; /* Tu peux ajuster la taille ici */
+    height: auto;
+    margin-right: 10px;
 }
 
 .navbar-logo {
@@ -120,8 +121,9 @@ input[type="submit"]:hover {
     border-radius: 4px;
 }
 
-.navbar-menu a.active, .navbar-menu a:hover {
-    background-color: #555;
+.navbar-menu a.active,
+.navbar-menu a:hover {
+    background-color: #FFC1C1; /* Peachy Pink */
 }
 
 /* Container */
@@ -192,4 +194,61 @@ input[type="submit"]:hover {
 
 .user-table th {
     background-color: #f4f4f4;
+}
+
+.btn-secondary {
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #218838;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+.form-card input:focus,
+.form-card select:focus {
+    border-color: #E5C3F1; /* Ton lilas */
+    outline: none;
+    box-shadow: 0 0 5px rgba(229, 195, 241, 0.8);
+}
+
+input[type="submit"], .btn-secondary, .form-card button.btn {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover, .btn-secondary:hover, .form-card button.btn:hover {
+    transform: scale(1.02);
+}
+
+/* Organisation en colonnes */
+.flex-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px; /* Espace entre les colonnes */
+}
+
+/* Partie formulaire */
+.form-section {
+    flex: 1;
+}
+
+/* Partie tableau */
+.table-section {
+    flex: 1;
+}
+
+/* Adaptation pour petits écrans */
+@media (max-width: 900px) {
+    .flex-wrapper {
+        flex-direction: column;
+    }
 }
