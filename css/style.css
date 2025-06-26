@@ -31,6 +31,12 @@ h2 {
     color: #E5C3F1; /* Spring Lilac */
 }
 
+h3{ 
+    text-align: center;
+    margin-bottom: 25px;
+    color: #E5C3F1; /* Spring Lilac */
+}
+
 label {
     display: block;
     margin-top: 15px;
@@ -129,8 +135,8 @@ input[type="submit"]:hover {
 /* Container */
 .container {
     max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 3px auto;
+    padding: 0px;
 }
 
 /* Form */
@@ -155,7 +161,7 @@ input[type="submit"]:hover {
 }
 
 .form-card button.btn {
-    margin-top: 20px;
+    margin-top: 5px;
     padding: 10px 20px;
     background-color: #007BFF;
     color: white;
@@ -251,4 +257,43 @@ input[type="submit"]:hover, .btn-secondary:hover, .form-card button.btn:hover {
     .flex-wrapper {
         flex-direction: column;
     }
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.button-group .btn,
+.button-group .btn-secondary {
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.button-group .btn-secondary:hover {
+    background-color: #218838;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espace entre les deux */
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    white-space: nowrap;
 }

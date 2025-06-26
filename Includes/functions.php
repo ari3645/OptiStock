@@ -25,11 +25,11 @@ function redirect_by_role($role) {
     exit;
 }
 
-// function get_user_reference_id($pdo, $user_id) {
-//     $stmt = $pdo->prepare("SELECT id_reference FROM utilisateur WHERE id = ?");
-//     $stmt->execute([$user_id]);
-//     $row = $stmt->fetch();
-//     return $row ? $row['id_reference'] : null;
-// }
+function get_user_reference_id($pdo, $user_id) {
+    $stmt = $pdo->prepare("SELECT id_reference FROM utilisateur WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $row = $stmt->fetch();
+    return $row ? $row['id_reference'] : null;
+}
 
 ?>
