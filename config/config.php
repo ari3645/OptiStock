@@ -1,12 +1,14 @@
 <?php
-
+// $host = '192.168.1.40:1433';       
+// $dbname = 'VRDM_BDD';    
+// $username = 'dev_user'; 
+// $password = 'K4bf8Ahb23Jnhy';
 
 // try {
-//     $pdo = new PDO('mysql:host=192.168.10.40;dbname=VDRM_BDD', 'dev_user', 'K4bf8Ahb23Jnhy');
-//     echo "Connexion réussie !";
+//     $pdo = new PDO("sqlsrv:Server=$host;Database=$dbname", $username, $password);
+//     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); 
 // } catch (PDOException $e) {
-//     //echo "Erreur : " . $e->getMessage();
-//     echo "";
+//     die("❌ Connexion échouée : " . htmlspecialchars($e->getMessage()));
 // }
-
 ?>
