@@ -134,84 +134,91 @@ if (!is_logged_in()) {
 
 <div class="container">
     <h2>Créer une nouvelle commande</h2>
-<!-- 
-    <?php if ($success): ?>
+
+    <!-- <?php if ($success): ?>
         <p class="message-success"><?= $success ?></p>
     <?php elseif ($error): ?>
         <p class="message-error"><?= $error ?></p>
     <?php endif; ?> -->
 
-    <!-- Formulaire global -->
-    <form method="POST" class="form-card">
-        <label>Nom de la commande :</label>
-        <input type="text" name="nom_commande" required value="<?= htmlspecialchars($nom_commande) ?>">
+    <div class="flex-global">
+        <!-- Colonne gauche : Création de la commande -->
+        <div class="left-section">
+            <form method="POST" class="form-card">
+                <label>Nom de la commande :</label>
+                <input type="text" name="nom_commande" required >
 
-        <label>Client :</label>
-        <select name="client_id" required>
-            <option value="">-- Sélectionner un client --</option>
-            <!-- <?php foreach ($clients as $client): ?>
-                <option value="<?= $client['id'] ?>" <?= ($client['id'] == $client_id ? 'selected' : '') ?>>
-                    <?= htmlspecialchars($client['nom']) ?>
-                </option>
-            <?php endforeach; ?> -->
-        </select>
-
-        <!-- <?php if ($adresse_client): ?>
-            <p><strong>Adresse :</strong> <?= nl2br(htmlspecialchars($adresse_client)) ?></p>
-        <?php endif; ?> -->
-
-        <div class="flex-wrapper" style="margin-top: 30px;">
-            <!-- Lots disponibles -->
-            <div class="form-section">
-                <h3>Lots disponibles</h3>
-                <!-- <?php foreach ($lots_disponibles as $lot): ?>
-                    <?php
-                    $dispo = $lot['quantite'];
-                    $dejajoutee = $_SESSION['commande_en_cours'][$lot['id']] ?? 0;
-                    $restant = $dispo - $dejajoutee;
-                    ?>
-                    <?php if ($restant > 0): ?>
-                        <form method="POST" class="form-card" style="margin-bottom: 10px;">
-                            <p><?= htmlspecialchars($lot['nom']) ?> (Stock: <?= $restant ?>)</p>
-                            <input type="number" name="quantite" min="1" max="<?= $restant ?>" value="1" required>
-                            <input type="hidden" name="lot_id" value="<?= $lot['id'] ?>">
-                            <button type="submit" name="action" value="ajouter_lot" class="btn">Ajouter</button>
-                        </form>
-                    <?php else: ?>
-                        <p><?= htmlspecialchars($lot['nom']) ?> → <span style="color:red;">Rupture</span></p>
-                    <?php endif; ?>
-                <?php endforeach; ?> -->
-            </div>
-
-            <!-- Commande en cours -->
-            <div class="form-section">
-                <h3>Commande en cours</h3>
-                <!-- <?php if (empty($_SESSION['commande_en_cours'])): ?>
-                    <p>Aucun lot sélectionné.</p>
-                <?php else: ?>
-                    <?php
-                    $ids = implode(',', array_keys($_SESSION['commande_en_cours']));
-                    $stmt = $pdo->query("SELECT id, nom FROM lot WHERE id IN ($ids)");
-                    $infos = $stmt->fetchAll(PDO::FETCH_UNIQUE);
-                    foreach ($_SESSION['commande_en_cours'] as $id => $qte):
-                        if (!isset($infos[$id])) continue;
-                        ?>
-                        <div>
-                            <?= htmlspecialchars($infos[$id]['nom']) ?> × <?= $qte ?>
-                            <a href="?retirer=<?= $id ?>" style="color:red; margin-left: 10px;">[X]</a>
-                        </div>
-                    <?php endforeach; ?>
+                <label>Client :</label>
+                <select name="client_id" required>
+                    <option value="">-- Sélectionner un client --</option>
+                    <!-- <?php foreach ($clients as $client): ?>
+                        <option value="<?= $client['id'] ?>" <?= ($client['id'] == $client_id ? 'selected' : '') ?>>
+                            <?= htmlspecialchars($client['nom']) ?>
+                        </option>
+                    <?php endforeach; ?> -->
+                </select>
+<!-- 
+                <?php if ($adresse_client): ?>
+                    <p><strong>Adresse :</strong> <?= nl2br(htmlspecialchars($adresse_client)) ?></p>
                 <?php endif; ?> -->
 
-                <!-- Boutons côte à côte -->
                 <div class="button-group" style="margin-top: 15px;">
                     <button type="submit" name="action" value="creer_commande" class="btn">Créer la commande</button>
                     <button type="submit" name="action" value="vider_commande" class="btn-secondary" onclick="return confirm('Vider la commande en cours ?');">Vider</button>
                 </div>
+            </form>
+        </div>
+
+        <!-- Colonne droite : Deux tableaux côte à côte -->
+        <div class="right-section">
+            <div class="flex-tables">
+                <!-- Lots disponibles -->
+                <div class="lots-section">
+                    <h3>Lots disponibles</h3>
+                    <!-- <?php foreach ($lots_disponibles as $lot): ?>
+                        <?php
+                        $dispo = $lot['quantite'];
+                        $dejajoutee = $_SESSION['commande_en_cours'][$lot['id']] ?? 0;
+                        $restant = $dispo - $dejajoutee;
+                        ?>
+                        <?php if ($restant > 0): ?>
+                            <form method="POST" class="form-card" style="margin-bottom: 10px;">
+                                <p><?= htmlspecialchars($lot['nom']) ?> (Stock: <?= $restant ?>)</p>
+                                <input type="number" name="quantite" min="1" max="<?= $restant ?>" value="1" required>
+                                <input type="hidden" name="lot_id" value="<?= $lot['id'] ?>">
+                                <button type="submit" name="action" value="ajouter_lot" class="btn">Ajouter</button>
+                            </form>
+                        <?php else: ?>
+                            <p><?= htmlspecialchars($lot['nom']) ?> → <span style="color:red;">Rupture</span></p>
+                        <?php endif; ?>
+                    <?php endforeach; ?> -->
+                </div>
+
+                <!-- Commande en cours -->
+                <div class="commande-section">
+                    <h3>Commande en cours</h3>
+                    <!-- <?php if (empty($_SESSION['commande_en_cours'])): ?>
+                        <p>Aucun lot sélectionné.</p>
+                    <?php else: ?>
+                        <?php
+                        $ids = implode(',', array_keys($_SESSION['commande_en_cours']));
+                        $stmt = $pdo->query("SELECT id, nom FROM lot WHERE id IN ($ids)");
+                        $infos = $stmt->fetchAll(PDO::FETCH_UNIQUE);
+                        foreach ($_SESSION['commande_en_cours'] as $id => $qte):
+                            if (!isset($infos[$id])) continue;
+                            ?>
+                            <div>
+                                <?= htmlspecialchars($infos[$id]['nom']) ?> × <?= $qte ?>
+                                <a href="?retirer=<?= $id ?>" style="color:red; margin-left: 10px;">[X]</a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?> -->
+                </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
 </body>
 </html>
+
