@@ -1,4 +1,13 @@
 <?php
+
+session_start();
+
+// TEMPORAIRE : Forcer une session de connexion pour test
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['user_id'] = 1; // ID fictif
+    $_SESSION['role'] = 'manager'; // Tu peux changer le rôle si besoin
+}
+
 require_once 'config/config.php';
 require_once 'includes/functions.php';
 
@@ -71,11 +80,12 @@ $utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id DESC")->fetch
 <div class="container">
     <h2>Créer un utilisateur</h2>
 
+    <!-- Affichage des messages de succès ou d'erreur -->
     <?php if ($success): ?>
         <p class="message-success"><?= $success ?></p>
     <?php elseif ($error): ?>
         <p class="message-error"><?= $error ?></p>
-    <?php endif; ?>
+    <?php endif; ?> 
 
     <form method="POST" class="form-card">
         <label>Login *</label>

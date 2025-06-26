@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['user_id'] = 1; // ID fictif
+    $_SESSION['role'] = 'manager'; // Rôle fictif
+}
+
 require_once 'config/config.php';
 require_once 'includes/functions.php';
 
