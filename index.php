@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Réalisation de commande</title>
+    <title>Réception fournisseur</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -19,7 +19,8 @@
             <li><a href="ajout_employe.php">Ajouter Employé</a></li>
             <li><a href="ajouter_lot.php">Créer Lot</a></li>
             <li><a href="creer_commande.php">Créer Commande</a></li>
-            <li><a href="realisation_commande.php" class="active">Réaliser Commande</a></li>
+            <li><a href="realisation_commande.php">Réaliser Commande</a></li>
+            <li><a href="reception_fournisseur.php" class="active">Réception Fournisseur</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
@@ -27,61 +28,71 @@
 </nav>
 
 <div class="container">
-    <h2>Réalisation de commande</h2>
+    <h2>Réception de vêtements fournisseur</h2>
 
-    <!-- <?php if ($error): ?>
-        <p class="message-error"><?= htmlspecialchars($error) ?></p>
+    <!-- <?php if ($success): ?>
+        <p class="message-success"><?= $success ?></p>
+    <?php elseif ($error): ?>
+        <p class="message-error"><?= $error ?></p>
     <?php endif; ?> -->
 
-    <!-- Formulaire de sélection de commande -->
-    <form method="POST" class="form-card">
-        <label>Commandes en attente :</label>
-        <select name="select_commande" onchange="this.form.submit()">
-            <option value="">-- Sélectionner une commande --</option>
-            <!-- <?php foreach ($attentes as $c): ?>
-                <option value="<?= $c['id'] ?>" <?= ($c['id'] == $cmd) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($c['cmd_nom']) ?> (<?= htmlspecialchars($c['client_nom']) ?>)
-                </option>
-            <?php endforeach; ?> -->
-        </select>
-    </form>
+    <div class="flex-global">
+        <!-- Formulaire à gauche -->
+        <div class="left-section">
+            <form method="POST" class="form-card">
+                <label>Nom du vêtement :</label>
+                <input type="text" name="nom" required>
 
-    <!-- <?php if ($cmd): ?> -->
-        <h3>Commande n°1
-            <!-- <?= $cmd ?> -->
-        </h3>
-        <form method="POST" class="form-card">
-            <input type="hidden" name="select_commande" value="<?= $cmd ?>">
+                <label>Taille :</label>
+                <select name="taille" required>
+                    <option value="">-- Sélectionner --</option>
+                    <!-- <?php foreach ($tailles as $t): ?>
+                        <option value="<?= $t ?>"><?= $t ?></option>
+                    <?php endforeach; ?> -->
+                </select>
 
-            <table class="user-table">
-                <thead>
-                <tr>
-                    <th>Article / Lot</th>
-                    <th>Quantité</th>
-                    <th>Fait ?</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- <?php foreach ($lots as $l): ?>
+                <label>Couleur :</label>
+                <input type="text" name="couleur" required>
+
+                <label>Quantité reçue :</label>
+                <input type="number" name="quantite" min="1" required>
+
+                <button type="submit" class="btn">Ajouter au stock</button>
+            </form>
+        </div>
+
+        <!-- Stock à droite -->
+        <div class="right-section">
+            <h3>Articles en stock</h3>
+<!-- 
+            <?php if (empty($articles)): ?>
+                <p>Aucun article actuellement en stock.</p>
+            <?php else: ?> -->
+                <table class="user-table">
+                    <thead>
                     <tr>
-                        <td><?= htmlspecialchars($l['nom']) ?></td>
-                        <td><?= (int)$l['quantite'] ?></td>
-                        <td>
-                            <input type="checkbox" name="cocher[]" value="<?= $l['commande_lot_id'] ?>"
-                                <?= in_array($l['commande_lot_id'], $pickings) ? 'checked' : '' ?>>
-                        </td>
+                        <th>Nom</th>
+                        <th>Taille</th>
+                        <th>Couleur</th>
+                        <th>Quantité</th>
+                        <th>Emplacement</th>
                     </tr>
-                <?php endforeach; ?> -->
-                </tbody>
-            </table>
-
-            <div class="button-group" style="margin-top: 15px;">
-                <button type="submit" name="save_progress" class="btn">Sauvegarder</button>
-                <button type="submit" name="complete_cmd" class="btn-secondary">Marquer comme prête</button>
-            </div>
-        </form>
-    <!-- <?php endif; ?> -->
+                    </thead>
+                    <tbody>
+                    <!-- <?php foreach ($articles as $article): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($article['nom']) ?></td>
+                            <td><?= htmlspecialchars($article['taille']) ?></td>
+                            <td><?= htmlspecialchars($article['couleur']) ?></td>
+                            <td><?= (int)$article['quantite'] ?></td>
+                            <td><?= htmlspecialchars($article['emplacement'] ?? '-') ?></td>
+                        </tr>
+                    <?php endforeach; ?> -->
+                    </tbody>
+                </table>
+            <!-- <?php endif; ?> -->
+        </div>
+    </div>
 </div>
-
 </body>
 </html>
