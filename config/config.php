@@ -1,13 +1,11 @@
 <?php
-$host = 'localhost';
-$dbname = 'stock_db';
-$user = 'root';
-$password = ''; // ou 'root' selon WAMP
+
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO('mysql:host=192.168.10.X;dbname=VDRM_BDD', 'dev_user', 'K4bf8Ahb23Jnhy');
+    echo "Connexion réussie !";
 } catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
+    echo "Erreur : " . $e->getMessage();
 }
+
 ?>
