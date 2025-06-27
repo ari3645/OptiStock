@@ -2,25 +2,34 @@
 session_start();
 
 function is_logged_in() {
-    return isset($_SESSION['user_id']);
+    return isset($_SESSION['Id_utilisateur']);
 }
 
 function redirect_by_role($role) {
     switch ($role) {
-        case 'manager':
-            header("Location: dashboard.php?role=manager");
+        case 'Admin':
+            header("Location: ajout_employe.php");
             break;
-        case 'employe':
-            header("Location: dashboard.php?role=employe");
+        case 'Employe':
+            header("Location: suivi_commande.php");
             break;
-        case 'livreur':
-            header("Location: dashboard.php?role=livreur");
+        case 'Livreur':
+            header("Location: suivi_commande.php");
             break;
-        case 'commercial':
-            header("Location: dashboard.php?role=commercial");
+        case 'Commercial':
+            header("Location: creer_lot.php");
+            break;
+        case 'Manager':
+            header("Location: ajout_employe.php");
+            break;
+        case 'Gestionnaire':
+            header("Location: creer_lot.php");
+            break;  
+        case 'Directeur':
+            header("Location: ajout_employe.php");
             break;
         default:
-            header("Location: login.php");
+            header("Location: index.php");
     }
     exit;
 }

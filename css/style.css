@@ -12,6 +12,17 @@ body {
     padding: 20px;
 }
 
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* pour occuper toute la hauteur de l'écran */
+}
+
+.login-page .login-container {
+    margin: 0; /* annule tout margin résiduel */
+}
+
 /* Login Container */
 .login-container {
     background-color: white;
