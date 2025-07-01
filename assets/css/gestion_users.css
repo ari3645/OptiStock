@@ -1,0 +1,165 @@
+/* import typo trocchi pour tout le sidebar */
+@import url('https://fonts.googleapis.com/css2?family=Trocchi&display=swap');
+
+/* reset de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  min-height: 100vh;
+  background: #FFF0F5;
+  color: #333;
+}
+
+/* ── sidebar / menu latéral ───────────────────────────────────────────────── */
+.sidebar {
+  width: 240px;
+  background: #FFC1C1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+}
+
+/* logo agrandi et centré */
+.sidebar .logo {
+  width: 200px;
+  margin: 0 auto 40px;
+}
+
+/* liens du menu : même typo et espacement que dashboard_admin */
+.sidebar .nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar .nav-links a {
+  display: block;                 /* chaque lien prend toute la largeur */
+  font-family: 'Trocchi', serif;  /* typo trocchi */
+  color: #fff;                    /* texte blanc */
+  text-decoration: none;          /* plus de soulignement */
+  padding: 12px 16px;             /* zone cliquable confortable */
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+  line-height: 1.4;               /* évite le chevauchement */
+}
+
+.sidebar .nav-links a:hover {
+  background-color: #E5C3F1;      /* lilas au survol */
+  color: #333;
+}
+
+.sidebar .nav-links a.active {
+  background-color: #E5C3F1;      /* lilas sur page active */
+  color: #333;
+}
+
+/* ── contenu principal ────────────────────────────────────────────────────── */
+.main-content {
+  margin-left: 240px;
+  padding: 30px;
+  flex: 1;
+}
+
+/* titre section en trocchi */
+.top-header h1 {
+  font-family: 'Trocchi', serif;
+  margin-bottom: 20px;
+}
+
+/* ── formulaire de création/utilisateurs ─────────────────────────────────── */
+.form-section, .users-list-section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.user-form h2 {
+  font-family: 'Trocchi', serif;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #C9F7F5;
+  border-radius: 5px;
+}
+
+/* bouton ajouter */
+.btn.primary {
+  background: #FFC1C1;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Trocchi', serif;
+}
+
+/* message de réponse */
+.response-msg {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ── tableau des utilisateurs ─────────────────────────────────────────────── */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.btn-edit-user,
+.btn-del-user {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+/* ── responsive pour petits écrans ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}

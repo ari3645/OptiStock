@@ -1,0 +1,136 @@
+/* reset + base */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Poppins',sans-serif;
+  background:#FFF0F5;
+  min-height:100vh;
+}
+.login-page {
+  display: flex;
+  height: 100vh;
+}
+
+/* === HERO SIDE === */
+.hero {
+  flex: 1;
+  background: linear-gradient(135deg,#D9B3F0,#FFC1C1);
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+.hero-img {
+  max-width: 60%;
+  opacity: .2;
+  margin-bottom: 20px;
+}
+.hero h2 {
+  font-family:'Trocchi',serif;
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+.hero p {
+  font-size: 16px;
+  max-width: 300px;
+}
+
+/* === FORM SIDE === */
+.form-side {
+  flex: 1;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.form-side .logo {
+  width: 120px;
+  margin-bottom: 20px;
+}
+.form-side h1 {
+  font-family:'Trocchi',serif;
+  font-size: 32px;
+  color: #FFC1C1;
+  margin-bottom: 30px;
+}
+.login-form .field {
+  width: 100%;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.login-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  border:1px solid #C9F7F5;
+  border-radius:6px;
+}
+.error {
+  height: 16px;
+  font-size: 13px;
+  color: #db2e2e;
+  margin-top: 4px;
+}
+.links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.link-btn {
+  background: none;
+  border: none;
+  color: #454B60;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-login {
+  width: 100%;
+  padding: 12px;
+  background: #FFC1C1;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .2s;
+}
+.btn-login:hover {
+  background: #e0a4a4;
+}
+.help {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.help a {
+  color: #454B60;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* responsive */
+@media(max-width:800px) {
+  .login-page {
+    flex-direction: column;
+  }
+  .hero {
+    display: none;
+  }
+  .form-side {
+    padding: 20px;
+  }
+  .form-side h1 { font-size: 28px; }
+}

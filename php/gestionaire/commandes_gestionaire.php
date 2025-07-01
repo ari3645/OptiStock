@@ -3,33 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Commandes - Fashion Chic</title>
+  <title>Commandes - Fashion Chic (Gestionaire)</title>
 
-  
-  <link href="https://fonts.googleapis.com/css2?family=Trocchi&display=swap" rel="stylesheet">
-
-
+  <!-- typo trocchi + fallback poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Trocchi&display=swap&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- on réutilise le CSS/JS “admin” car même layout -->
   <link rel="stylesheet" href="../../assets/css/commandes_admin.css" />
-
-
   <script defer src="../../assets/js/commandes_admin.js"></script>
+
+  <style>
+
+    body { font-family: 'Trocchi', serif; }
+    .nav-links a,
+    .top-header h1,
+    .commandes-table th,
+    .commandes-table td,
+    #order-detail p {
+      text-transform: capitalize;
+    }
+  </style>
 </head>
-<body style="font-family: 'Trocchi', serif;">
+<body>
 
 
   <aside class="sidebar">
     <div class="logo-container">
-      <img src="../../assets/images/logo.svg" alt="logo fashion chic" class="logo">
+      <img src="../../assets/images/logo.svg" alt="Logo Fashion Chic" class="logo">
     </div>
-   <nav class="nav-links">
-      <a href="../admin/dashboard_admin.php">Dashboard</a>
-      <a href="../admin/commandes_admin.php">Commandes</a>
-      <a href="../admin/factures_admin.php" class="active">Factures</a>
-      <a href="../admin/stocks_admin.php">Stocks</a>
-      <a href="../admin/creation_lots_admin.php">Création de lots</a>
+    <nav class="nav-links">
+      <a href="dashboard_gestionaire.php">Dashboard</a>
+      <a href="commandes_gestionaire.php" class="active">Commandes</a>
+      <a href="factures_gestionaire.php">Factures</a>
+      <a href="stocks_gestionaire.php">Stocks</a>
+      <a href="creation_lots_gestionaire.php">Création de lots</a>
+      
       <a href="../logout.php">Déconnexion</a>
     </nav>
-
   </aside>
 
 
@@ -43,18 +52,15 @@
       <table class="commandes-table">
         <thead>
           <tr>
-            <th>N° Commande</th>
-            <th>Produit</th>
-            <th>Quantité</th>
-            <th>Client</th>
-            <th>Statut</th>
-            <th>Action</th>
+            <th>n° commande</th>
+            <th>produit</th>
+            <th>quantité</th>
+            <th>client</th>
+            <th>statut</th>
+            <th>action</th>
           </tr>
         </thead>
         <tbody>
-
-
-    
           <?php
             // données fictives pour l’instant
             $commandes = [
@@ -62,22 +68,17 @@
               ['id' => 1002, 'produit' => 't-shirt', 'quantite' => 1, 'client' => 'Sophie', 'statut' => 'expédiée'],
               ['id' => 1003, 'produit' => 'jupe', 'quantite' => 3, 'client' => 'Marie', 'statut' => 'en attente']
             ];
-
             foreach ($commandes as $cmd) {
               echo "<tr>";
-              echo "<td>" . $cmd['id'] . "</td>";
-              echo "<td>" . htmlspecialchars($cmd['produit']) . "</td>";
-              echo "<td>" . $cmd['quantite'] . "</td>";
-              echo "<td>" . htmlspecialchars($cmd['client']) . "</td>";
-              echo "<td>" . htmlspecialchars($cmd['statut']) . "</td>";
+              echo "<td>{$cmd['id']}</td>";
+              echo "<td>".htmlspecialchars($cmd['produit'])."</td>";
+              echo "<td>{$cmd['quantite']}</td>";
+              echo "<td>".htmlspecialchars($cmd['client'])."</td>";
+              echo "<td>".htmlspecialchars($cmd['statut'])."</td>";
               echo "<td><button class='btn-status'>Changer</button></td>";
               echo "</tr>";
             }
           ?>
-
-
-
-
         </tbody>
       </table>
     </section>

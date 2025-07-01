@@ -1,0 +1,133 @@
+/* reset de base - keep it chill */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+
+/* body en flex pour sidebar + main */
+body {
+  display: flex;
+  font-family: 'Poppins', sans-serif;
+  background-color: #FFF0F5;
+  color: #454B60;
+  min-height: 100vh;
+}
+
+/* sidebar sticky */
+.sidebar {
+  width: 240px;
+  background: #FFC1C1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+}
+
+/* logo centré */
+.logo-container {
+  text-align: center;
+}
+.logo {
+  width: 180px; /* un peu plus gros */
+  margin-bottom: 20px;
+}
+
+/* nav links - simple hover */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.3s;
+  text-transform: capitalize;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  background: #E5C3F1; /* lilas hover */
+  color: #333;
+}
+
+/* main décalé à droite */
+.main-content {
+  margin-left: 240px;
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* header trocchi */
+.top-header h1 {
+  font-family: 'Trocchi', serif;
+  font-size: 28px;
+  text-transform: capitalize;
+}
+
+/* cards container - responsive */
+.cards-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* chaque carte stat */
+.stat-card {
+  flex: 1 1 180px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: transform 0.2s, border-left 0.2s;
+  border-left: 5px solid transparent;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+.stat-card.active {
+  border-left: 5px solid #C9F7F5;
+  background: #F0FDFA;
+}
+
+/* titres/value dans les cards */
+.stat-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-transform: lowercase;
+}
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* zone où le js injecte les lists */
+.content-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  min-height: 200px;
+  font-size: 14px;
+}
+
+/* mobile first – empile sidebar */
+@media (max-width: 768px) {
+  body { flex-direction: column; }
+  .sidebar {
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+  }
+  .main-content { margin-left: 0; padding: 20px; }
+  .cards-container { flex-direction: column; }
+}

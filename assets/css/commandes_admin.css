@@ -108,3 +108,15 @@ body {
 .btn-status:hover {
   background-color: #b0ece9;
 }
+
+/* style pr ligne livrée pour commandes_livreur
+    aka état visuel d'une commande livrée */
+.commandes-table tr.delivered {
+  opacity: 0.6;
+}
+
+.commandes-table .btn-status.disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: default;
+}

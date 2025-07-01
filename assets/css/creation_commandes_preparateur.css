@@ -1,0 +1,106 @@
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  display:flex;
+  font-family:'Poppins',sans-serif;
+  background:#FFF0F5;
+  color:#454B60;
+  min-height:100vh;
+}
+
+
+.sidebar {
+  width:240px;
+  background:#FFC1C1;
+  padding:20px;
+  position:fixed; top:0; bottom:0; left:0;
+  display:flex; flex-direction:column; gap:20px;
+}
+.logo {
+  width:180px; margin:0 auto 20px;
+}
+.nav-links { display:flex; flex-direction:column; gap:12px; }
+.nav-links a {
+  text-decoration:none; color:white;
+  padding:10px; border-radius:8px;
+  font-weight:500; text-transform:capitalize;
+  transition:background .3s;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  background:#E5C3F1; color:#333;
+}
+
+
+.main-content {
+  margin-left:240px; padding:30px; flex:1;
+}
+.top-header h1 {
+  font-family:'Trocchi',serif;
+  font-size:28px; text-transform:capitalize;
+  margin-bottom:20px;
+}
+
+/* form */
+.form-section {
+  background:white; padding:20px;
+  border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom:30px;
+}
+.form-group { margin-bottom:15px; }
+.form-group label {
+  display:block; margin-bottom:6px;
+  font-weight:500; text-transform:capitalize;
+}
+.form-group select,
+.form-group input {
+  width:100%; padding:8px;
+  border:1px solid #C9F7F5;
+  border-radius:6px; font-family:inherit;
+}
+.error-msg {
+  color:#db2e2e; font-size:13px; height:14px;
+}
+
+/* aperçu */
+.preview-section h2 {
+  font-family:'Trocchi',serif;
+  font-size:24px; margin-bottom:10px;
+  text-transform:capitalize;
+}
+.orders-table {
+  width:100%; border-collapse:collapse;
+  margin-bottom:20px;
+}
+.orders-table th {
+  background:#FFC1C1; color:white;
+  text-align:left; padding:10px;
+  text-transform:capitalize;
+}
+.orders-table td {
+  padding:10px; border-bottom:1px solid #eee;
+}
+.orders-table tbody tr:hover {
+  background:#FFF7FA;
+}
+.btn-primary {
+  background:#FFC1C1; color:white;
+  padding:10px 16px; border:none;
+  border-radius:6px; cursor:pointer;
+  font-weight:500; text-transform:capitalize;
+  transition:background .2s;
+}
+.btn-primary:hover { background:#e0a4a4; }
+.response-msg {
+  margin-top:10px; font-size:14px;
+}
+
+/* responsive */
+@media(max-width:768px) {
+  .sidebar {
+    position:static; width:100%;
+    flex-direction:row;
+    justify-content:space-around; padding:10px;
+  }
+  .main-content { margin-left:0; padding:20px; }
+}

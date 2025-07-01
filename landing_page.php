@@ -18,7 +18,7 @@
       <ul>
         <li><a href="#features">Fonctionnalités</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="login.html" class="btn-nav">Connexion</a></li>
+        <li><a href="php/login.php" class="btn-nav">Connexion</a></li>
       </ul>
     </nav>
   </header>
@@ -30,7 +30,7 @@
     <a href="login.html" class="btn primary">Commencer maintenant</a>
   </section>
 
-  <!--  Zone pour  les fonctionnalités principales -->
+  <!--  main fct -->
   <section id="features" class="features">
     <h2>Ce que vous pouvez faire avec VDRM</h2>
     <div class="grid">
@@ -43,7 +43,7 @@
     </div>
   </section>
 
-  <!-- Contact en bas de page -->
+
   <footer id="contact" class="footer">
     <p>Besoin d’aide ? Contactez-nous à <a href="mailto:support@vdrm.com">support@vdrm.com</a></p>
   </footer>

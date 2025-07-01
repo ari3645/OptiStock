@@ -3,27 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fashion Chic - Tableau de bord Admin</title>
+  <title>Fashion Chic – Tableau de bord Gestionaire</title>
 
-
-  <link href="https://fonts.googleapis.com/css2?family=Trocchi&display=swap" rel="stylesheet">
-
-  
-<link rel="stylesheet" href="../../assets/css/dashboard_admin.css">
-
-
-  
-<script src="../../assets/js/dashboard_admin.js"></script>
+  <!-- typo trocchi + fallback poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Trocchi&display=swap&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- même JS/CSS que pour l’admin -->
+  <link rel="stylesheet" href="../../assets/css/dashboard_admin.css">
+  <script defer src="../../assets/js/dashboard_admin.js"></script>
 
   <style>
-    body {
-      font-family: 'Trocchi', serif;
-    }
-
-    .logo {
-      width: 200px;
-    }
-
+    /* quickfix: override local : police principale = trocchi */
+    body { font-family: 'Trocchi', serif; }
+    /* logo plus large cuz it looks better */
+    .logo { width: 200px; }
+    
     .nav-links a,
     .stat-title,
     .stat-value,
@@ -35,34 +28,34 @@
 </head>
 <body>
 
-  <!-- menu latéral -->
   <aside class="sidebar">
-   <div class="logo-container">
+    <div class="logo-container">
+      <img
+        src="../../assets/images/logo.svg"
+        alt="Logo Fashion Chic"
+        class="logo"
+      >
+    </div>
 
-  <img
-    src="../../assets/images/logo.svg"
-    alt="Logo Fashion Chic"
-    class="logo"
-  >
-</div>
-
-   <nav class="nav-links">
-      <a href="../admin/dashboard_admin.php">Dashboard</a>
-      <a href="../admin/commandes_admin.php">Commandes</a>
-      <a href="../admin/factures_admin.php" class="active">Factures</a>
-      <a href="../admin/stocks_admin.php">Stocks</a>
-      <a href="../admin/creation_lots_admin.php">Création de lots</a>
+    <nav class="nav-links">
+      <!-- links woo  -->
+      <a href="dashboard_gestionaire.php" class="active">Dashboard</a>
+      <a href="commandes_gestionaire.php">Commandes</a>
+      <a href="factures_gestionaire.php">Factures</a>
+      <a href="stocks_gestionaire.php">Stocks</a>
+      <a href="creation_lots_gestionaire.php">Création de lots</a>
+      
       <a href="../logout.php">Déconnexion</a>
     </nav>
   </aside>
 
-  <!-- contenu principal -->
+  
   <main class="main-content">
     <header class="top-header">
-      <h1>Tableau de bord - Admin</h1>
+      <h1>Tableau de bord – Gestionaire</h1>
 
       <div class="search-bar">
-        <input type="text" placeholder="Recherche...">
+        <input type="text" placeholder="Recherche…">
       </div>
     </header>
 

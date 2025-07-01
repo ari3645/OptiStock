@@ -3,34 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stocks - Fashion Chic</title>
-  
+  <title>Stocks - Fashion Chic (Gestionaire)</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Trocchi&display=swap" rel="stylesheet">
-  
-  
+  <!-- trocchi + fallback poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Trocchi&display=swap&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- same que le css admin -->
   <link rel="stylesheet" href="../../assets/css/stocks_admin.css">
-
-  
-  <script defer src="../assets/js/stocks.js"></script>
+  <!-- same JS -->
+  <script defer src="../../assets/js/stocks.js"></script>
 
   <style>
-    body {
-      font-family: 'Trocchi', serif;
-    }
-
-    .logo {
-      width: 200px; /* plus grand */
-    }
-
-    .nav-links a {
-      text-transform: capitalize;
-    }
-
-    .stock-table th {
-      text-transform: capitalize;
-    }
-
+   
+    body { font-family: 'Trocchi', serif; }
+    /* quickfix pr logo plus large */
+    .logo { width: 200px; }
+    .nav-links a,
+    .stock-table th,
     .top-header h1 {
       text-transform: capitalize;
     }
@@ -38,25 +26,25 @@
 </head>
 <body>
 
-  <!-- menu latéral -->
+
   <aside class="sidebar">
     <div class="logo-container">
       <img src="../../assets/images/logo.svg" alt="Logo Fashion Chic" class="logo">
     </div>
     <nav class="nav-links">
-      <a href="../admin/dashboard_admin.php">Dashboard</a>
-      <a href="../admin/commandes_admin.php">Commandes</a>
-      <a href="../admin/factures_admin.php" class="active">Factures</a>
-      <a href="../admin/stocks_admin.php">Stocks</a>
-      <a href="../admin/creation_lots_admin.php">Création de lots</a>
+      <a href="dashboard_gestionaire.php">Dashboard</a>
+      <a href="commandes_gestionaire.php">Commandes</a>
+      <a href="factures_gestionaire.php">Factures</a>
+      <a href="stocks_gestionaire.php" class="active">Stocks</a>
+      <a href="creation_lots_gestionaire.php">Création de lots</a>
       <a href="../logout.php">Déconnexion</a>
     </nav>
   </aside>
 
-  <!-- contenu principal -->
+
   <main class="main-content">
     <header class="top-header">
-      <h1>Stocks disponibles - Admin</h1>
+      <h1>Stocks disponibles - Gestionaire</h1>
     </header>
 
     <section class="stock-table-section">
@@ -72,17 +60,17 @@
         </thead>
         <tbody>
           <?php
+            // mock data en attendant BDD/API
             $stocks = [
-              ['nom' => 'Jupe', 'quantite' => 24, 'alerte' => 10, 'categorie' => 'Vêtements'],
-              ['nom' => 'Robe', 'quantite' => 5, 'alerte' => 8, 'categorie' => 'Vêtements'],
-              ['nom' => 'T-shirt', 'quantite' => 0, 'alerte' => 5, 'categorie' => 'Vêtements']
+              ['nom' => 'Jupe',    'quantite' => 24, 'alerte' => 10, 'categorie' => 'Vêtements'],
+              ['nom' => 'Robe',    'quantite' => 5,  'alerte' => 8,  'categorie' => 'Vêtements'],
+              ['nom' => 'T-shirt', 'quantite' => 0,  'alerte' => 5,  'categorie' => 'Vêtements']
             ];
-
             foreach ($stocks as $stock) {
               echo "<tr>";
               echo "<td>" . htmlspecialchars($stock['nom']) . "</td>";
-              echo "<td>" . $stock['quantite'] . "</td>";
-              echo "<td>" . $stock['alerte'] . "</td>";
+              echo "<td>{$stock['quantite']}</td>";
+              echo "<td>{$stock['alerte']}</td>";
               echo "<td>" . htmlspecialchars($stock['categorie']) . "</td>";
               echo "<td><button class='btn-edit'>Modifier</button></td>";
               echo "</tr>";

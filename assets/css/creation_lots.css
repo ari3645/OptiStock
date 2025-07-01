@@ -1,0 +1,119 @@
+/* import trocchi */
+@import url('https://fonts.googleapis.com/css2?family=Trocchi&display=swap');
+
+/* reset */
+* { margin:0; padding:0; box-sizing:border-box }
+body {
+  font-family:'Poppins',sans-serif;
+  background:#FFF0F5; color:#333;
+  display:flex; min-height:100vh;
+}
+
+.sidebar {
+  width:240px; background:#FFC1C1; padding:20px;
+  position:fixed; top:0; left:0; height:100vh;
+  display:flex; flex-direction:column; gap:20px;
+}
+.sidebar .logo {
+  width:200px; margin:0 auto 40px;
+}
+.nav-links a {
+  display:block;font-family:'Trocchi',serif;
+  color:#fff;text-decoration:none;
+  padding:12px 16px; border-radius:8px;
+  transition:0.3s;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  background:#E5C3F1;color:#333;
+}
+
+
+.main-content {
+  margin-left:240px; flex:1; padding:30px;
+}
+.top-header h1 {
+  font-family:'Trocchi',serif; margin-bottom:20px;
+}
+
+/* formulaire lot */
+.lot-form-section {
+  background:#fff; padding:20px; border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:20px;
+}
+.lot-form-section h2 {
+  font-family:'Trocchi',serif; margin-bottom:12px;
+}
+.form-group {
+  margin-bottom:12px;
+}
+.form-group label {
+  display:block;font-weight:500;margin-bottom:6px;
+}
+.form-group input {
+  width:100%;padding:8px;border:1px solid #C9F7F5;
+  border-radius:5px;
+}
+
+/* layout deux colonnes */
+.lists-container {
+  display:flex; gap:20px;
+}
+/* col gauche */
+.available-section {
+  flex:1;background:#fff;padding:20px;border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+.available-list {
+  display:flex;flex-direction:column;gap:12px;
+}
+.article-card {
+  padding:12px;border:1px solid #eee;border-radius:6px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.btn-add {
+  background:#C9F7F5;border:none;padding:6px 12px;
+  border-radius:6px;cursor:pointer;transition:0.2s;
+}
+.btn-add:hover { background:#b0ece9; }
+
+/* col droite */
+.lot-preview-section {
+  flex:1.2;background:#fff;padding:20px;border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+.lot-preview-section h2 {
+  font-family:'Trocchi',serif;margin-bottom:12px;
+}
+.lot-table {
+  width:100%;border-collapse:collapse;margin-bottom:12px;
+}
+.lot-table th {
+  background:#FFC1C1;color:#fff;padding:10px;
+}
+.lot-table td {
+  padding:8px;border-bottom:1px solid #eee;
+}
+.btn-remove {
+  background:transparent;border:none;color:#f66;cursor:pointer;
+  font-weight:bold;
+}
+
+/* bouton créer */
+.btn-primary {
+  display:block;margin:0 auto;padding:12px 20px;
+  background:#FFC1C1;color:#fff;border:none;border-radius:6px;
+  cursor:pointer;font-weight:bold;transition:0.2s;
+}
+.btn-primary:hover { background:#ff9fa9; }
+
+
+.response-msg {
+  text-align:center;margin-top:10px;font-size:14px;
+}
+
+/* responsive */
+@media(max-width:900px){
+  .lists-container { flex-direction:column; }
+  .available-section, .lot-preview-section { width:100%; }
+}
