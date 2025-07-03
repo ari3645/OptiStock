@@ -16,21 +16,14 @@ $roles = ['manager', 'employe', 'gestionnaire', 'commercial', 'livreur', 'direct
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Récupération des champs obligatoires
     $login = trim($_POST['login'] ?? '');
     $mot_de_passe = $_POST['mot_de_passe'] ?? '';
     $role = $_POST['role'] ?? '';
 
-    // Récupération des champs optionnels
     $nom = trim($_POST['nom'] ?? '');
     $prenom = trim($_POST['prenom'] ?? '');
     $telephone = trim($_POST['telephone'] ?? '');
 
-    echo "<pre>";
-    var_dump($nom, $prenom, $telephone, $role, $login, $mot_de_passe);
-    echo "</pre>";
-
-    // Vérification des champs obligatoires
     if ($login === '' || $mot_de_passe === '' || $role === '') {
         $error = "Tous les champs obligatoires doivent être remplis.";
     } elseif (!in_array($role, $roles)) {
@@ -38,18 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (
         strlen($mot_de_passe) < 8 ||
         !preg_match('/[A-Z]/', $mot_de_passe) ||
-        !preg_match('/[0-9]/', $mot_de_passe)
+        !preg_match('/[0-9]/', $mot_de_passe) ||
+        strlen($mot_de_passe) > 25
     ) {
-        $error = "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.";
+        $error = "Le mot de passe doit contenir entre 8 et 25 caractères avec au moins une majuscule et un chiffre.";
     } else {
-        // Vérifier si le login existe déjà
         $stmt = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE Email = ?");
         $stmt->execute([$login]);
 
         if ($stmt->fetch()) {
             $error = "Ce login est déjà utilisé.";
         } else {
-            // Insertion de l'utilisateur avec les champs supplémentaires
             $hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("INSERT INTO utilisateur (Email, motdepasse, fonction, nom, prenom, telephone) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([$login, $hash, $role, $nom, $prenom, $telephone]);
