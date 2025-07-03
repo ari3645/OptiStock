@@ -12,8 +12,8 @@ if (!is_logged_in()) {
 $success = '';
 $error = '';
 
-$roles = ['manager', 'employe', 'gestionnaire', 'commercial', 'livreur', 'directeur', 'admin'];
 
+$roles = ['Manager', 'Employe', 'Gestionnaire', 'Commercial', 'Livreur', 'Directeur', 'Admin'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $login = trim($_POST['login'] ?? '');
@@ -130,33 +130,6 @@ $utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id_utilisateur D
                 <button type="submit" class="btn">Créer l'utilisateur</button>
             </form>
         </div>
-
-        <div class="table-section">
-            <h3>Utilisateurs existants</h3>
-            <table class="user-table">
-                <thead>
-                <tr>
-                    <th>Login</th>
-                    <th>Rôle</th>
-                    <th>Téléphone</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                    
-
-                <?php foreach ($utilisateurs as $u): ?> 
-                    <tr>
-                        
-                        <td><?= htmlspecialchars($u['Email']) ?></td>
-                        <td><?= htmlspecialchars($u['Fonction']) ?></td>
-                        <td><?= $u['Telephone'] ?></td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-
     </div>
 </div>
 

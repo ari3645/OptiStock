@@ -356,3 +356,17 @@ input[type="number"]:focus,
         width: 100%;
     }
 }
+
+.table-btn {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table-btn:hover {
+    background-color: #218838;
+}
