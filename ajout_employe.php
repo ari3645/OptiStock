@@ -12,39 +12,54 @@ if (!is_logged_in()) {
 $success = '';
 $error = '';
 
-$roles = ['manager', 'employe', 'gestionnaire', 'commercial'];
+$roles = ['manager', 'employe', 'gestionnaire', 'commercial', 'livreur', 'directeur', 'admin'];
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $login = trim($_POST['login'] ?? '');
-//     $mot_de_passe = $_POST['mot_de_passe'] ?? '';
-//     $role = $_POST['role'] ?? '';
-//     $id_reference = (int)($_POST['id_reference'] ?? 0);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-//     if ($login === '' || $mot_de_passe === '' || $role === '' || $id_reference === 0) {
-//         $error = "Tous les champs sont obligatoires.";
-//     } elseif (!in_array($role, $roles)) {
-//         $error = "Rôle invalide.";
-//     } elseif (
-//         strlen($mot_de_passe) < 8 ||
-//         !preg_match('/[A-Z]/', $mot_de_passe) ||
-//         !preg_match('/[0-9]/', $mot_de_passe)
-//     ) {
-//         $error = "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.";
-//     } else {
-//         $stmt = $pdo->prepare("SELECT id FROM utilisateur WHERE login = ?");
-//         $stmt->execute([$login]);
-//         if ($stmt->fetch()) {
-//             $error = "Ce login est déjà utilisé.";
-//         } else {
-//             $hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
-//             $stmt = $pdo->prepare("INSERT INTO utilisateur (login, mot_de_passe, role, id_reference) VALUES (?, ?, ?, ?)");
-//             $stmt->execute([$login, $hash, $role, $id_reference]);
-//             $success = "Nouvel utilisateur créé avec succès.";
-//         }
-//     }
-// }
+    // Récupération des champs obligatoires
+    $login = trim($_POST['login'] ?? '');
+    $mot_de_passe = $_POST['mot_de_passe'] ?? '';
+    $role = $_POST['role'] ?? '';
 
-// $utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+    // Récupération des champs optionnels
+    $nom = trim($_POST['nom'] ?? '');
+    $prenom = trim($_POST['prenom'] ?? '');
+    $telephone = trim($_POST['telephone'] ?? '');
+
+    echo "<pre>";
+    var_dump($nom, $prenom, $telephone, $role, $login, $mot_de_passe);
+    echo "</pre>";
+
+    // Vérification des champs obligatoires
+    if ($login === '' || $mot_de_passe === '' || $role === '') {
+        $error = "Tous les champs obligatoires doivent être remplis.";
+    } elseif (!in_array($role, $roles)) {
+        $error = "Rôle invalide.";
+    } elseif (
+        strlen($mot_de_passe) < 8 ||
+        !preg_match('/[A-Z]/', $mot_de_passe) ||
+        !preg_match('/[0-9]/', $mot_de_passe)
+    ) {
+        $error = "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre.";
+    } else {
+        // Vérifier si le login existe déjà
+        $stmt = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE Email = ?");
+        $stmt->execute([$login]);
+
+        if ($stmt->fetch()) {
+            $error = "Ce login est déjà utilisé.";
+        } else {
+            // Insertion de l'utilisateur avec les champs supplémentaires
+            $hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("INSERT INTO utilisateur (Email, motdepasse, fonction, nom, prenom, telephone) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$login, $hash, $role, $nom, $prenom, $telephone]);
+            $success = "Nouvel utilisateur créé avec succès.";
+        }
+    }
+}
+
+
+$utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id_utilisateur DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -56,16 +71,13 @@ $roles = ['manager', 'employe', 'gestionnaire', 'commercial'];
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
     <div class="navbar-container">
-        <!-- Logo + Nom -->
         <div class="navbar-brand">
             <img src="images/logo.png" alt="Logo OptiStock" class="navbar-logo-img">
             <a href="index.php" class="navbar-logo">OptiStock</a>
         </div>
 
-        <!-- Menu -->
         <ul class="navbar-menu">
             <li><a href="index.php">Accueil</a></li>
             <li><a href="ajout_employe.php" class="active">Ajouter Employé</a></li>
@@ -75,21 +87,18 @@ $roles = ['manager', 'employe', 'gestionnaire', 'commercial'];
     </div>
 </nav>
 
-<!-- Contenu principal -->
+
 <div class="container">
     <h2>Créer un utilisateur</h2>
 
-    <!-- Message de succès ou d'erreur -->
     <?php if ($success): ?>
         <p class="message-success"><?= $success ?></p>
     <?php elseif ($error): ?>
         <p class="message-error"><?= $error ?></p>
     <?php endif; ?>
 
-    <!-- Nouveau wrapper pour organiser les colonnes -->
-    <div class="flex-wrapper">
 
-        <!-- Formulaire à gauche -->
+    <div class="flex-wrapper">
         <div class="form-section">
             <form method="POST" class="form-card">
                 <label>Login *</label>
@@ -98,6 +107,23 @@ $roles = ['manager', 'employe', 'gestionnaire', 'commercial'];
                 <label>Mot de passe *</label>
                 <input type="password" name="mot_de_passe" required>
                 <small>Doit contenir au moins 8 caractères, une majuscule et un chiffre.</small>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <div style="flex: 1;">
+                        <label>Nom</label>
+                        <input type="text" name="nom" value="<?= htmlspecialchars($_POST['nom'] ?? '') ?>">
+                    </div>
+
+                    <div style="flex: 1;">
+                        <label>Prénom</label>
+                        <input type="text" name="prenom" value="<?= htmlspecialchars($_POST['prenom'] ?? '') ?>">
+                    </div>
+
+                    <div style="flex: 1;">
+                        <label>Téléphone</label>
+                        <input type="text" name="telephone" value="<?= htmlspecialchars($_POST['telephone'] ?? '') ?>">
+                    </div>
+                </div>
 
                 <label>Rôle *</label>
                 <select name="role" required>
@@ -109,34 +135,32 @@ $roles = ['manager', 'employe', 'gestionnaire', 'commercial'];
                     <?php endforeach; ?>
                 </select>
 
-                <label>ID de référence *</label>
-                <input type="number" name="id_reference" min="1" required value="<?= htmlspecialchars($_POST['id_reference'] ?? '') ?>">
-
                 <button type="submit" class="btn">Créer l'utilisateur</button>
             </form>
         </div>
 
-        <!-- Liste utilisateurs à droite -->
         <div class="table-section">
             <h3>Utilisateurs existants</h3>
             <table class="user-table">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Login</th>
                     <th>Rôle</th>
-                    <th>ID Référence</th>
+                    <th>Téléphone</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- <?php foreach ($utilisateurs as $u): ?>
+
+                    
+
+                <?php foreach ($utilisateurs as $u): ?> 
                     <tr>
-                        <td><?= $u['id'] ?></td>
-                        <td><?= htmlspecialchars($u['login']) ?></td>
-                        <td><?= htmlspecialchars($u['role']) ?></td>
-                        <td><?= htmlspecialchars($u['id_reference']) ?></td>
+                        
+                        <td><?= htmlspecialchars($u['Email']) ?></td>
+                        <td><?= htmlspecialchars($u['Fonction']) ?></td>
+                        <td><?= $u['Telephone'] ?></td>
                     </tr>
-                <?php endforeach; ?> -->
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
