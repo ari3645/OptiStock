@@ -1,6 +1,6 @@
 <?php
 require_once 'config/config.php';
-require_once 'includes/functions.php';
+require_once 'Includes/functions.php';
 
 $commande_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 

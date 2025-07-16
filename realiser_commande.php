@@ -1,6 +1,6 @@
 <?php
 require_once 'config/config.php';
-require_once 'includes/functions.php';
+require_once 'Includes/functions.php';
 
 $error = '';
 $cmd = $_POST['select_commande'] ?? $_GET['select_commande'] ?? null;

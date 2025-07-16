@@ -1,6 +1,6 @@
 <?php
 require_once 'config/config.php';
-require_once 'includes/functions.php';
+require_once 'Includes/functions.php';
 
     $recherche = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 
