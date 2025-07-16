@@ -1,0 +1,525 @@
+/* Général */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #FFF0F5;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* pour occuper toute la hauteur de l'écran */
+}
+
+.login-page .login-container {
+    margin: 0; /* annule tout margin résiduel */
+}
+
+/* Login Container */
+.login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    transition: box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo */
+.logo {
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 120px;
+    height: auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #E5C3F1;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #E5C3F1;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #FADADD;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #FFC1C1;
+    transform: scale(1.02);
+}
+
+.error-message {
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #E5C3F1;
+    padding: 15px 30px;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo-img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.navbar-logo {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li {
+    margin-left: 20px;
+}
+
+.navbar-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.navbar-menu a.active,
+.navbar-menu a:hover {
+    background-color: #FFC1C1;
+}
+
+/* Form Cards */
+.form-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.form-card label {
+    display: block;
+    margin-top: 15px;
+}
+
+.form-card input,
+.form-card select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-card button.btn {
+    margin-top: 5px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-card button.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.02);
+}
+
+/* Messages */
+.message-success {
+    color: green;
+    margin-bottom: 15px;
+    background-color: #d4edda;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.message-error {
+    color: red;
+    margin-bottom: 15px;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Table */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.user-table th {
+    background-color: #f4f4f4;
+}
+
+/* Secondary Buttons */
+.btn-secondary {
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+/* Focus Effects */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+.form-card input:focus,
+.form-card select:focus {
+    border-color: #E5C3F1;
+    outline: none;
+    box-shadow: 0 0 5px rgba(229, 195, 241, 0.8);
+}
+
+/* Layout for Commande Page */
+
+/* Global Layout */
+.flex-global {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* Left Column: Formulaire */
+.left-section {
+    width: 40%;
+}
+
+/* Right Column: Lots et Commande */
+.right-section {
+    width: 60%;
+}
+
+/* Lots et Commande Côté à Côté */
+.flex-tables {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Lots et Commande Sections */
+.lots-section,
+.commande-section {
+    width: 48%;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Button Groups (Créer / Vider) */
+.button-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.button-group .btn,
+.button-group .btn-secondary {
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.button-group .btn-secondary:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+/* Search Bar */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    white-space: nowrap;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-button:hover {
+    background-color: #FFC1C1;
+    transform: scale(1.02);
+}
+
+/* Responsive Layout */
+@media (max-width: 1000px) {
+    .flex-global {
+        flex-direction: column;
+    }
+
+    .flex-tables {
+        flex-direction: column;
+    }
+
+    .left-section,
+    .right-section,
+    .lots-section,
+    .commande-section {
+        width: 100%;
+    }
+}
+
+.table-btn {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table-btn:hover {
+    background-color: #218838;
+}
+
+.lots-grille {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.lot-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: calc(25% - 20px); /* 4 par ligne */
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.lots-centres {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lots-centres table {
+    width: auto;
+}
+
+input[type="number"] {
+    width: 60px;
+}
+
+.flex-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+}
+
+.form-section {
+    flex: 1;
+}
+
+.grid-articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.form-card {
+    width: calc(33.33% - 10px); /* 3 par ligne */
+    min-height: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+.form-card p {
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+.form-card input[type="number"] {
+    width: 60px;
+    padding: 3px;
+}
+
+.form-card button {
+    margin-top: 6px;
+    padding: 5px 10px;
+}
+
+.form-section:last-child {
+    width: 300px;
+    position: sticky;
+    top: 90px;
+    background: #fff;
+    border-left: 2px solid #eee;
+    padding-left: 15px;
+}
+
+@media (max-width: 1000px) {
+    .form-card {
+        width: calc(50% - 10px); /* 2 par ligne sur petit écran */
+    }
+
+    .form-section:last-child {
+        display: none; /* On peut cacher la colonne droite sur mobile si besoin */
+    }
+}
+
+/* Container pour lot en cours fixé à droite */
+.lot-en-cours-wrapper {
+    position: sticky;
+    top: 90px;
+    width: 30%;
+    max-width: 350px;
+    background: #fff;
+    padding: 15px;
+    border-left: 2px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    align-self: flex-start;
+}
+
+/* Conteneur vertical : liste au-dessus, formulaire en dessous */
+.lot-en-cours-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Liste d'articles */
+.lot-articles {
+    max-height: 250px;
+    overflow-y: auto;
+    font-size: 14px;
+    padding-right: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Formulaire */
+.lot-formulaire .form-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Corriger padding / marges internes pour qu'il s'étale bien */
+.lot-formulaire input[type="text"],
+.lot-formulaire input[type="number"],
+.lot-formulaire input,
+.lot-formulaire button,
+.lot-formulaire .btn,
+.lot-formulaire .btn-secondary {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Limiter l'espace utilisé par défaut */
+.flex-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Colonne gauche pour les articles */
+.articles-section {
+    flex: 1;
+    max-width: 70%;
+}
