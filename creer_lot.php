@@ -183,7 +183,7 @@ $vets_disponibles = $stmt->fetchAll();
     <?php endif; ?>
 
     <!-- Formulaire de recherche -->
-<form method="GET" class="form-card search-form">
+<form method="GET" class="form-card2 search-form">
     <input type="text" name="recherche" placeholder="Recherche..." >
     <button type="submit" class="btn">Rechercher</button>
 </form>
@@ -201,14 +201,14 @@ $vets_disponibles = $stmt->fetchAll();
                     $restant = $stock - $dejajoutee;
                     ?>
                     <?php if ($restant > 0): ?>
-                        <form method="POST" action="?ajouter=<?= $vet['Article_ID'] ?>" class="form-card">
+                        <form method="POST" action="?ajouter=<?= $vet['Article_ID'] ?>" class="form-card2">
                             <p><?= htmlspecialchars($vet['Libelle_Article']) ?><br><?= $vet['Taille'] ?> - <?= $vet['Couleur'] ?></p>
                             <label>Qté :</label>
                             <input type="number" name="quantite" min="1" max="<?= $restant ?>" value="1" required>
                             <button type="submit" class="btn">Ajouter</button>
                         </form>
                     <?php else: ?>
-                        <div class="form-card">
+                        <div class="form-card2">
                             <p><?= htmlspecialchars($vet['Libelle_Article']) ?><br><?= $vet['Taille'] ?> - <?= $vet['Couleur'] ?></p>
                             <span style="color:red;">Rupture de stock</span>
                         </div>

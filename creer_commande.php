@@ -7,102 +7,111 @@ if (!is_logged_in()) {
     exit;
 }
 
- // Initialisation
- if (!isset($_SESSION['commande_en_cours'])) {
-     $_SESSION['commande_en_cours'] = [];
- }
+// Initialisation
+if (!isset($_SESSION['commande_en_cours'])) {
+    $_SESSION['commande_en_cours'] = [];
+}
 
- $clients = $pdo->query("SELECT * FROM client ORDER BY Nom_Client ASC")->fetchAll(PDO::FETCH_ASSOC);
+$clients = $pdo->query("SELECT * FROM client ORDER BY Nom_Client ASC")->fetchAll(PDO::FETCH_ASSOC);
 
- $nom_commande = trim($_POST['nom_commande'] ?? '');
- $client_id = (int)($_POST['client_id'] ?? 0);
- $adresse_client = '';
- $success = '';
- $error = '';
+$nom_commande = trim($_POST['nom_commande'] ?? '');
+$client_id = (int)($_POST['client_id'] ?? 0);
+$adresse_client = '';
+$success = '';
+$error = '';
 
- if ($client_id) {
-     $stmt = $pdo->prepare("SELECT adresse FROM client WHERE id = ?");
-     $stmt->execute([$client_id]);
-     $adresse_client = $stmt->fetchColumn();
- }
+if ($client_id) {
+    $stmt = $pdo->prepare("SELECT adresse FROM client WHERE Client_ID = ?");
+    $stmt->execute([$client_id]);
+    $adresse_client = $stmt->fetchColumn();
+}
 
- // Ajouter un lot
- if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'ajouter_lot') {
-     $lot_id = (int)($_POST['lot_id'] ?? 0);
-     $quantite = (int)($_POST['quantite'] ?? 0);
+// Ajouter un lot
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'ajouter_lot') {
+    $lot_id = (int)($_POST['lot_id'] ?? 0);
+    $quantite = (int)($_POST['quantite'] ?? 0);
 
-     $stmt = $pdo->prepare("SELECT Quantite_Article FROM lot WHERE Lot_ID = ?");
-     $stmt->execute([$lot_id]);
-     $dispo = $stmt->fetchColumn();
+    $stmt = $pdo->prepare("SELECT Nb_Lots FROM lot WHERE Lot_ID = ?");
+    $stmt->execute([$lot_id]);
+    $dispo = $stmt->fetchColumn();
 
-     if ($dispo !== false && $quantite > 0 && $quantite <= $dispo) {
-         $_SESSION['commande_en_cours'][$lot_id] = ($_SESSION['commande_en_cours'][$lot_id] ?? 0) + $quantite;
-     }
- }
+    if ($dispo !== false && $quantite > 0 && $quantite <= $dispo) {
+        $_SESSION['commande_en_cours'][$lot_id] = ($_SESSION['commande_en_cours'][$lot_id] ?? 0) + $quantite;
+    }
+}
 
- if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'vider_commande') {
-     $_SESSION['commande_en_cours'] = [];
- }
+// Vider commande
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'vider_commande') {
+    $_SESSION['commande_en_cours'] = [];
+}
 
- if (isset($_GET['retirer'])) {
-     unset($_SESSION['commande_en_cours'][(int)$_GET['retirer']]);
-     header("Location: creer_commande.php");
-     exit;
- }
+if (isset($_GET['retirer'])) {
+    unset($_SESSION['commande_en_cours'][(int)$_GET['retirer']]);
+    header("Location: creer_commande.php");
+    exit;
+}
 
- if (isset($_GET['vider'])) {
-     $_SESSION['commande_en_cours'] = [];
-     header("Location: creer_commande.php");
-     exit;
- }
+if (isset($_GET['vider'])) {
+    $_SESSION['commande_en_cours'] = [];
+    header("Location: creer_commande.php");
+    exit;
+}
 
- if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creer_commande') {
-     if ($nom_commande === '' || $client_id === 0) {
-         $error = "Nom de commande et client obligatoires.";
-     } elseif (empty($_SESSION['commande_en_cours'])) {
-         $error = "Aucun lot sélectionné.";
-     } else {
-         $erreur_stock = false;
+// Créer commande
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creer_commande') {
+    if ($nom_commande === '' || $client_id === 0) {
+        $error = "Nom de commande et client obligatoires.";
+    } elseif (empty($_SESSION['commande_en_cours'])) {
+        $error = "Aucun lot sélectionné.";
+    } else {
+        $erreur_stock = false;
 
-         foreach ($_SESSION['commande_en_cours'] as $lot_id => $qte) {
-             $stmt = $pdo->prepare("SELECT quantite FROM lot WHERE id = ?");
-             $stmt->execute([$lot_id]);
-             $stock = $stmt->fetchColumn();
-             if ($stock < $qte) {
-                 $error = "Stock insuffisant pour le lot ID $lot_id.";
-                 $erreur_stock = true;
-                 break;
-             }
-         }
+        foreach ($_SESSION['commande_en_cours'] as $lot_id => $qte) {
+            $stmt = $pdo->prepare("SELECT Nb_Lots FROM lot WHERE Lot_ID = ?");
+            $stmt->execute([$lot_id]);
+            $stock = $stmt->fetchColumn();
+            if ($stock < $qte) {
+                $error = "Stock insuffisant pour le lot ID $lot_id.";
+                $erreur_stock = true;
+                break;
+            }
+        }
 
-         if (!$erreur_stock) {
-             $stmt = $pdo->prepare("INSERT INTO commande (nom, date_creation, statut_id, client_id) VALUES (?, NOW(), 1, ?)");
-             $stmt->execute([$nom_commande, $client_id]);
-             $commande_id = $pdo->lastInsertId();
+        if (!$erreur_stock) {
+            // Encodage JSON des lots
+            $lots_array = [];
+            foreach ($_SESSION['commande_en_cours'] as $lot_id => $qte) {
+                $lots_array[] = ['lot_id' => $lot_id, 'quantite' => $qte];
+            }
+            $json_lots = json_encode($lots_array);
 
-             foreach ($_SESSION['commande_en_cours'] as $lot_id => $qte) {
-                 $stmt = $pdo->prepare("INSERT INTO commande_lot (commande_id, lot_id, quantite) VALUES (?, ?, ?)");
-                 $stmt->execute([$commande_id, $lot_id, $qte]);
+            // Insertion commande
+            $stmt = $pdo->prepare("INSERT INTO Commande (Numero_Commande, dt_validation, Statut, Client_ID, Composition_Lots) VALUES (?, GETDATE(), 'En attente', ?, ?)");
+            $stmt->execute([$nom_commande, $client_id, $json_lots]);
 
-                 $stmt = $pdo->prepare("UPDATE lot SET quantite = quantite - ? WHERE id = ?");
-                 $stmt->execute([$qte, $lot_id]);
-             }
+            $commande_id = $pdo->lastInsertId();
 
-             $_SESSION['commande_en_cours'] = [];
+            // Décrémenter le stock des lots
+            foreach ($_SESSION['commande_en_cours'] as $lot_id => $qte) {
+                $update = $pdo->prepare("UPDATE Lot SET Nb_Lots = Nb_Lots - ? WHERE Lot_ID = ?");
+                $update->execute([$qte, $lot_id]);
+            }
 
-             $stmt = $pdo->prepare("SELECT nom FROM client WHERE id = ?");
-             $stmt->execute([$client_id]);
-             $nom_client = $stmt->fetchColumn();
+            $_SESSION['commande_en_cours'] = [];
 
-             $success = "Commande \"<strong>" . htmlspecialchars($nom_commande) . "</strong>\" pour le client <strong>" . htmlspecialchars($nom_client) . "</strong> créée avec succès.";
-             $nom_commande = '';
-             $client_id = 0;
-             $adresse_client = '';
-         }
-     }
- }
+            $stmt = $pdo->prepare("SELECT Nom_Client FROM client WHERE Client_ID = ?");
+            $stmt->execute([$client_id]);
+            $nom_client = $stmt->fetchColumn();
 
- $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Quantite_Article > 0")->fetchAll(PDO::FETCH_ASSOC);
+            $nom_commande = '';
+            $client_id = 0;
+            $adresse_client = '';
+        }
+    }
+}
+
+// Charger uniquement les lots disponibles
+$lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Nb_Lots > 0")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -150,7 +159,7 @@ if (!is_logged_in()) {
         <div class="left-section">
             <form method="POST" class="form-card">
                 <label>Nom de la commande :</label>
-                <input type="text" name="nom_commande" required >
+                <input type="text" name="nom_commande" required>
 
                 <label>Client :</label>
                 <select name="client_id" required>
@@ -173,7 +182,7 @@ if (!is_logged_in()) {
             </form>
         </div>
 
-        <!-- Colonne droite : Deux tableaux côte à côte -->
+        <!-- Colonne droite : Affichage lots + commande -->
         <div class="right-section">
             <div class="flex-tables">
                 <!-- Lots disponibles -->
@@ -181,19 +190,26 @@ if (!is_logged_in()) {
                     <h3>Lots disponibles</h3>
                     <?php foreach ($lots_disponibles as $lot): ?>
                         <?php
-                        $dispo = $lot['Quantite_Article'];
+                        if ($lot['Nb_Lots'] <= 0) {
+                            continue;
+                        }
+                        $dispo = $lot['Nb_Lots'];
                         $dejajoutee = $_SESSION['commande_en_cours'][$lot['Lot_ID']] ?? 0;
                         $restant = $dispo - $dejajoutee;
                         ?>
                         <?php if ($restant > 0): ?>
                             <form method="POST" class="form-card" style="margin-bottom: 10px;">
-                                <p><?= htmlspecialchars($lot['Modele_Lot']) ?> (Stock: <?= $restant ?>)</p>
+                                <p>
+                                    <?= htmlspecialchars($lot['Modele_Lot']) ?>
+                                    (<?= number_format($lot['Prix_Lot'] ?? 0, 2, ',', ' ') ?> €) - Stock: <?= $restant ?>
+                                </p>
+
                                 <input type="number" name="quantite" min="1" max="<?= $restant ?>" value="1" required>
-                                <input type="hidden" name="lot_id" value="<?= $lot['ID_Article'] ?>">
+                                <input type="hidden" name="lot_id" value="<?= $lot['Lot_ID'] ?>">
                                 <button type="submit" name="action" value="ajouter_lot" class="btn">Ajouter</button>
                             </form>
                         <?php else: ?>
-                            <p><?= htmlspecialchars($lot['nom']) ?> → <span style="color:red;">Rupture</span></p>
+                            <p><?= htmlspecialchars($lot['Modele_Lot']) ?> → <span style="color:red;">Rupture</span></p>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
@@ -201,27 +217,36 @@ if (!is_logged_in()) {
                 <!-- Commande en cours -->
                 <div class="commande-section">
                     <h3>Commande en cours</h3>
-                    <?php if (empty($_SESSION['commande_en_cours'])): ?>
-                        <p>Aucun lot sélectionné.</p>
-                    <?php else: ?>
-                        <?php
+                    <?php
+                    $total = 0;
+                    if (!empty($_SESSION['commande_en_cours'])):
                         $ids = implode(',', array_keys($_SESSION['commande_en_cours']));
-                        $stmt = $pdo->query("SELECT Lot_ID, Modele_Lot FROM lot WHERE Lot_ID IN ($ids)");
+                        $stmt = $pdo->query("SELECT Lot_ID, Modele_Lot, Prix_Lot FROM lot WHERE Lot_ID IN ($ids)");
                         $infos = $stmt->fetchAll(PDO::FETCH_UNIQUE);
-                        foreach ($_SESSION['commande_en_cours'] as $id => $qte):
-                            if (!isset($infos[$id])) continue;
-                            ?>
-                            <div>
-                                <?= htmlspecialchars($infos[$id]['Modele_Lot']) ?> × <?= $qte ?>
-                                <a href="?retirer=<?= $id ?>" style="color:red; margin-left: 10px;">[X]</a>
-                            </div>
-                        <?php endforeach; ?>
+                        ?>
+                        <?php foreach ($_SESSION['commande_en_cours'] as $id => $qte):
+                        if (!isset($infos[$id])) continue;
+                        $lot = $infos[$id];
+                        $prix_total_lot = $qte * $lot['Prix_Lot'];
+                        $total += $prix_total_lot;
+                        ?>
+                        <div>
+                            <?= htmlspecialchars($lot['Modele_Lot']) ?> × <?= $qte ?>
+                            (<?= number_format($prix_total_lot, 2, ',', ' ') ?> €)
+                            <a href="?retirer=<?= $id ?>" style="color:red; margin-left: 10px;">[X]</a>
+                        </div>
+                    <?php endforeach; ?>
+                        <hr>
+                        <p><strong>Total estimé :</strong> <?= number_format($total, 2, ',', ' ') ?> €</p>
+                    <?php else: ?>
+                        <p>Aucun lot sélectionné.</p>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 </body>
 </html>
