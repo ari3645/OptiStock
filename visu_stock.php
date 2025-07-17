@@ -1,3 +1,62 @@
+<?php
+require_once 'config/config.php';
+require_once 'includes/functions.php';
+
+    $recherche = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
+
+    // --- VÊTEMENTS ---
+    if (!empty($recherche)) {
+        $sql = "SELECT 
+                    Libelle_Article,
+                    Taille,
+                    Couleur,
+                    Nb_Stock,
+                    Emplacement_ID
+                FROM article
+                WHERE 
+                    Libelle_Article LIKE :rech1
+                    OR Taille LIKE :rech2
+                    OR Couleur LIKE :rech3
+                    OR Emplacement_ID LIKE :rech4";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'rech1' => '%' . $recherche . '%',
+            'rech2' => '%' . $recherche . '%',
+            'rech3' => '%' . $recherche . '%',
+            'rech4' => '%' . $recherche . '%',
+        ]);
+    } else {
+        $sql = "SELECT 
+                    Libelle_Article,
+                    Taille,
+                    Couleur,
+                    Nb_Stock,
+                    Emplacement_ID
+                FROM article";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+    }
+    $vetements = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // --- LOTS ---
+    if (!empty($recherche)) {
+        $sqlLots = "SELECT Modele_Lot, Quantite_Article 
+                    FROM lot 
+                    WHERE 
+                        Modele_Lot LIKE :rech1";
+        $stmtLots = $pdo->prepare($sqlLots);
+        $stmtLots->execute([
+            'rech1' => '%' . $recherche . '%',
+        ]);
+    } else {
+        $sqlLots = "SELECT Modele_Lot, Quantite_Article FROM lot";
+        $stmtLots = $pdo->prepare($sqlLots);
+        $stmtLots->execute();
+    }
+    $lots = $stmtLots->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,24 +79,36 @@
         <ul class="navbar-menu">
             <li><a href="index.php">Accueil</a></li>
             <li><a href="ajout_employe.php">Ajouter Employé</a></li>
-            <li><a href="ajouter_lot.php">Créer Lot</a></li>
+            <li><a href="creer_lot.php">Créer Lot</a></li>
             <li><a href="creer_commande.php">Créer Commande</a></li>
-            <li><a href="realisation_commande.php">Réaliser Commande</a></li>
-            <li><a href="reception_fournisseur.php">Réception Fournisseur</a></li>
-            <li><a href="suivi_commandes.php">Suivi Commandes</a></li>
-            <li><a href="visualisation_stocks.php" class="active">Stocks</a></li>
+            <li><a href="realiser_commande.php">Réaliser Commande</a></li>
+            <li><a href="reception_commande.php">Réception Fournisseur</a></li>
+            <li><a href="suivi_commande.php" class="active">Suivi Commandes</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
     </div>
 </nav>
 
+<h3>Actions CSV</h3>
+
+<!-- Export -->
+<form method="POST" action="export_csv.php" style="display:inline;">
+    <button type="submit" class="btn">📤 Exporter CSV</button>
+</form>
+
+<!-- Import -->
+<form method="POST" action="import_csv.php" enctype="multipart/form-data" style="display:inline; margin-left:10px;">
+    <input type="file" name="csv_file" accept=".csv" required>
+    <button type="submit" class="btn">📥 Importer CSV</button>
+</form>
+
 <div class="container">
     <h2>Stocks dans l'entrepôt</h2>
 
     <!-- Formulaire de recherche -->
     <form method="GET" class="form-card search-form" style="margin-bottom: 20px;">
-        <input type="text" name="recherche" placeholder="Recherche globale" class="search-input">
+        <input type="text" name="recherche" placeholder="Recherche globale" class="search-input" value="<?= htmlspecialchars($recherche ?? '') ?>">
         <button type="submit" class="btn search-button">Rechercher</button>
     </form>
 
@@ -51,17 +122,21 @@
             <th>Quantité</th>
             <th>Emplacement</th>
         </tr>
-        <!-- <?php foreach ($vetements as $vetement): ?>
-            <tr>
-                <td><?= htmlspecialchars($vetement['nom']) ?></td>
-                <td><?= $vetement['taille'] ?></td>
-                <td><?= $vetement['couleur'] ?></td>
-                <td class="<?= $vetement['quantite'] == 0 ? 'rupture' : '' ?>">
-                    <?= $vetement['quantite'] == 0 ? 'Rupture de stock' : $vetement['quantite'] ?>
-                </td>
-                <td><?= htmlspecialchars($vetement['emplacement'] ?? '-') ?></td>
-            </tr>
-        <?php endforeach; ?> -->
+        <?php if (empty($vetements)): ?>
+            <tr><td colspan="5">Aucun vêtement trouvé.</td></tr>
+        <?php else: ?>
+            <?php foreach ($vetements as $vetement): ?>
+                <tr>
+                    <td><?= htmlspecialchars($vetement['Libelle_Article']) ?></td>
+                    <td><?= htmlspecialchars($vetement['Taille']) ?></td>
+                    <td><?= htmlspecialchars($vetement['Couleur']) ?></td>
+                    <td class="<?= $vetement['Nb_Stock'] == 0 ? 'rupture' : '' ?>">
+                        <?= $vetement['Nb_Stock'] == 0 ? 'Rupture de stock' : htmlspecialchars($vetement['Nb_Stock']) ?>
+                    </td>
+                    <td><?= htmlspecialchars($vetement['Emplacement_ID'] ?? '-') ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </table>
 
     <!-- Lots -->
@@ -70,21 +145,17 @@
         <tr>
             <th>Nom du lot</th>
             <th>Unités par lot</th>
-            <th>Quantité (lots)</th>
-            <th>Emplacement</th>
         </tr>
-        <!-- <?php if (empty($lots)): ?>
-            <tr><td colspan="4">Aucun lot enregistré.</td></tr>
+        <?php if (empty($lots)): ?>
+            <tr><td colspan="2">Aucun lot trouvé.</td></tr>
         <?php else: ?>
             <?php foreach ($lots as $lot): ?>
                 <tr>
-                    <td><?= htmlspecialchars($lot['nom']) ?></td>
-                    <td><?= (int)$lot['unites_par_lot'] ?></td>
-                    <td><?= (int)$lot['quantite'] ?></td>
-                    <td><?= htmlspecialchars($lot['emplacement']) ?></td>
+                    <td><?= htmlspecialchars($lot['Modele_Lot']) ?></td>
+                    <td><?= (int)$lot['Quantite_Article'] ?></td>
                 </tr>
             <?php endforeach; ?>
-        <?php endif; ?> -->
+        <?php endif; ?>
     </table>
 
     <br>

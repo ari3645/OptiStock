@@ -17,7 +17,7 @@ function redirect_by_role($role) {
             header("Location: suivi_commande.php");
             break;
         case 'Commercial':
-            header("Location: creer_lot.php");
+            header("Location: creer_commande.php");
             break;
         case 'Manager':
             header("Location: ajout_employe.php");
@@ -35,7 +35,7 @@ function redirect_by_role($role) {
 }
 
 function get_user_reference_id($pdo, $user_id) {
-    $stmt = $pdo->prepare("SELECT id_reference FROM utilisateur WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT ID_Utilisateur FROM Utilisateur WHERE ID_Utilisateur = ?");
     $stmt->execute([$user_id]);
     $row = $stmt->fetch();
     return $row ? $row['id_reference'] : null;

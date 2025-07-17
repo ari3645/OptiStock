@@ -1,3 +1,58 @@
+<?php
+require_once 'config/config.php';
+require_once 'includes/functions.php';
+
+// Initialisation
+$commandes = [];
+$filtre_statut = $_GET['statut'] ?? '';
+
+// Chargement des statuts disponibles
+try {
+    $stmt = $pdo->query("SELECT DISTINCT Statut AS nom FROM commande");
+    $statuts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Ajout d'un identifiant pour faciliter la sélection dans le HTML
+    foreach ($statuts as $index => $s) {
+        $statuts[$index]['id'] = $s['nom']; // 'nom' = 'En attente', etc.
+    }
+} catch (PDOException $e) {
+    echo "Erreur lors du chargement des statuts : " . $e->getMessage();
+    $statuts = [];
+}
+
+// Chargement des commandes avec ou sans filtre
+try {
+    if (!empty($filtre_statut)) {
+        $stmt = $pdo->prepare("
+            SELECT 
+                c.Commande_ID, 
+                c.Numero_Commande AS commande_nom, 
+                cl.Nom_Client AS client_nom, 
+                cl.Adresse AS Adresse, 
+                c.Statut AS statut_nom
+            FROM commande c
+            LEFT JOIN client cl ON c.Client_ID = cl.Client_ID
+            WHERE c.Statut = :statut
+        ");
+        $stmt->execute(['statut' => $filtre_statut]);
+    } else {
+        $stmt = $pdo->query("
+            SELECT 
+                c.Commande_ID, 
+                c.Numero_Commande AS commande_nom, 
+                cl.Nom_Client AS client_nom, 
+                cl.Adresse AS Adresse, 
+                c.Statut AS statut_nom
+            FROM commande c
+            LEFT JOIN client cl ON c.Client_ID = cl.Client_ID
+        ");
+    }
+    $commandes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erreur lors du chargement des commandes : " . $e->getMessage();
+    $commandes = [];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,11 +82,11 @@
         <ul class="navbar-menu">
             <li><a href="index.php">Accueil</a></li>
             <li><a href="ajout_employe.php">Ajouter Employé</a></li>
-            <li><a href="ajouter_lot.php">Créer Lot</a></li>
+            <li><a href="creer_lot.php">Créer Lot</a></li>
             <li><a href="creer_commande.php">Créer Commande</a></li>
-            <li><a href="realisation_commande.php">Réaliser Commande</a></li>
-            <li><a href="reception_fournisseur.php">Réception Fournisseur</a></li>
-            <li><a href="suivi_commandes.php" class="active">Suivi Commandes</a></li>
+            <li><a href="realiser_commande.php">Réaliser Commande</a></li>
+            <li><a href="reception_commande.php">Réception Fournisseur</a></li>
+            <li><a href="suivi_commande.php" class="active">Suivi Commandes</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
@@ -42,15 +97,15 @@
     <h2>Suivi des commandes</h2>
 
     <!-- Filtre par statut -->
-    <form method="get" class="form-card search-form" style="margin-bottom: 20px;">
+    <form method="get" style="margin-bottom: 20px;">
         <label>Filtrer par statut :</label>
         <select name="statut" onchange="this.form.submit()">
             <option value="0">-- Tous les statuts --</option>
-            <!-- <?php foreach ($statuts as $statut): ?>
-                <option value="<?= $statut['id'] ?>" <?= ($statut['id'] == $filtre_statut ? 'selected' : '') ?>>
+            <?php foreach ($statuts as $statut): ?>
+                <option value="<?= $statut['nom'] ?>" <?= ($statut['nom'] == $filtre_statut ? 'selected' : '') ?>>
                     <?= htmlspecialchars($statut['nom']) ?>
                 </option>
-            <?php endforeach; ?> -->
+            <?php endforeach; ?>
         </select>
     </form>
 
@@ -66,35 +121,25 @@
         </tr>
         </thead>
         <tbody>
-        <!-- <?php if (empty($commandes)): ?>
+        <?php if (empty($commandes)): ?>
             <tr><td colspan="5">Aucune commande trouvée.</td></tr>
         <?php else: ?>
             <?php foreach ($commandes as $commande): ?>
                 <tr>
                     <td><?= htmlspecialchars($commande['commande_nom']) ?></td>
                     <td><?= htmlspecialchars($commande['client_nom']) ?></td>
-                    <td><?= nl2br(htmlspecialchars($commande['adresse'])) ?></td> -->
+                    <td><?= htmlspecialchars($commande['Adresse'] ?? '-') ?></td>
                     <td>
-                        <!-- <span class="<?//= badge_class($commande['statut_nom']) ?>">
+                        <span class="<?//= badge_class($commande['statut_nom']) ?>">
                             <?= htmlspecialchars($commande['statut_nom']) ?>
-                        </span> -->
+                        </span>
                     </td>
                     <td>
-                        <form method="post" class="inline">
-                            <input type="hidden" name="commande_id" value="<?= $commande['id'] ?>">
-                            <select name="statut_id">
-                                <!-- <?php foreach ($statuts as $s): ?>
-                                    <option value="<?= $s['id'] ?>" <?= ($s['id'] == $commande['statut_id'] ? 'selected' : '') ?>>
-                                        <?= htmlspecialchars($s['nom']) ?>
-                                    </option>
-                                <?php endforeach; ?> -->
-                            </select>
-                            <button type="submit" class="btn">🆗</button>
-                        </form>
+                        <a href="modifier_commande.php?id=<?= $commande['Commande_ID'] ?>">Modifier</a>
                     </td>
                 </tr>
-            <!-- <?php endforeach; ?>
-        <?php endif; ?> -->
+            <?php endforeach; ?>
+        <?php endif; ?>
         </tbody>
     </table>
 </div>

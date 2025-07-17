@@ -31,7 +31,12 @@ $utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id_utilisateur D
         <ul class="navbar-menu">
             <li><a href="index.php">Accueil</a></li>
             <li><a href="ajout_employe.php">Ajouter Employé</a></li>
-            <li><a href="liste_utilisateurs.php" class="active">Liste Utilisateurs</a></li>
+            <li><a href="creer_lot.php">Créer Lot</a></li>
+            <li><a href="creer_commande.php">Créer Commande</a></li>
+            <li><a href="realiser_commande.php">Réaliser Commande</a></li>
+            <li><a href="reception_commande.php">Réception Fournisseur</a></li>
+            <li><a href="suivi_commande.php" class="active">Suivi Commandes</a></li>
+            <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
     </div>

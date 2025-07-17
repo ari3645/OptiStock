@@ -370,3 +370,156 @@ input[type="number"]:focus,
 .table-btn:hover {
     background-color: #218838;
 }
+
+.lots-grille {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.lot-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: calc(25% - 20px); /* 4 par ligne */
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.lots-centres {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lots-centres table {
+    width: auto;
+}
+
+input[type="number"] {
+    width: 60px;
+}
+
+.flex-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+}
+
+.form-section {
+    flex: 1;
+}
+
+.grid-articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.form-card {
+    width: calc(33.33% - 10px); /* 3 par ligne */
+    min-height: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+.form-card p {
+    margin: 0 0 8px;
+    font-size: 14px;
+}
+
+.form-card input[type="number"] {
+    width: 60px;
+    padding: 3px;
+}
+
+.form-card button {
+    margin-top: 6px;
+    padding: 5px 10px;
+}
+
+.form-section:last-child {
+    width: 300px;
+    position: sticky;
+    top: 90px;
+    background: #fff;
+    border-left: 2px solid #eee;
+    padding-left: 15px;
+}
+
+@media (max-width: 1000px) {
+    .form-card {
+        width: calc(50% - 10px); /* 2 par ligne sur petit écran */
+    }
+
+    .form-section:last-child {
+        display: none; /* On peut cacher la colonne droite sur mobile si besoin */
+    }
+}
+
+/* Container pour lot en cours fixé à droite */
+.lot-en-cours-wrapper {
+    position: sticky;
+    top: 90px;
+    width: 30%;
+    max-width: 350px;
+    background: #fff;
+    padding: 15px;
+    border-left: 2px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    align-self: flex-start;
+}
+
+/* Conteneur vertical : liste au-dessus, formulaire en dessous */
+.lot-en-cours-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Liste d'articles */
+.lot-articles {
+    max-height: 250px;
+    overflow-y: auto;
+    font-size: 14px;
+    padding-right: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Formulaire */
+.lot-formulaire .form-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Corriger padding / marges internes pour qu'il s'étale bien */
+.lot-formulaire input[type="text"],
+.lot-formulaire input[type="number"],
+.lot-formulaire input,
+.lot-formulaire button,
+.lot-formulaire .btn,
+.lot-formulaire .btn-secondary {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Limiter l'espace utilisé par défaut */
+.flex-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Colonne gauche pour les articles */
+.articles-section {
+    flex: 1;
+    max-width: 70%;
+}

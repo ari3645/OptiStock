@@ -12,7 +12,7 @@ if (!is_logged_in()) {
      $_SESSION['commande_en_cours'] = [];
  }
 
- $clients = $pdo->query("SELECT * FROM client ORDER BY nom ASC")->fetchAll(PDO::FETCH_ASSOC);
+ $clients = $pdo->query("SELECT * FROM client ORDER BY Nom_Client ASC")->fetchAll(PDO::FETCH_ASSOC);
 
  $nom_commande = trim($_POST['nom_commande'] ?? '');
  $client_id = (int)($_POST['client_id'] ?? 0);
@@ -31,7 +31,7 @@ if (!is_logged_in()) {
      $lot_id = (int)($_POST['lot_id'] ?? 0);
      $quantite = (int)($_POST['quantite'] ?? 0);
 
-     $stmt = $pdo->prepare("SELECT quantite FROM lot WHERE id = ?");
+     $stmt = $pdo->prepare("SELECT Quantite_Article FROM lot WHERE Lot_ID = ?");
      $stmt->execute([$lot_id]);
      $dispo = $stmt->fetchColumn();
 
@@ -102,7 +102,7 @@ if (!is_logged_in()) {
      }
  }
 
- $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE quantite > 0")->fetchAll(PDO::FETCH_ASSOC);
+ $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Quantite_Article > 0")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -124,8 +124,11 @@ if (!is_logged_in()) {
         <ul class="navbar-menu">
             <li><a href="index.php">Accueil</a></li>
             <li><a href="ajout_employe.php">Ajouter Employé</a></li>
-            <li><a href="ajouter_lot.php">Créer Lot</a></li>
-            <li><a href="creer_commande.php" class="active">Créer Commande</a></li>
+            <li><a href="creer_lot.php">Créer Lot</a></li>
+            <li><a href="creer_commande.php">Créer Commande</a></li>
+            <li><a href="realiser_commande.php">Réaliser Commande</a></li>
+            <li><a href="reception_commande.php">Réception Fournisseur</a></li>
+            <li><a href="suivi_commande.php" class="active">Suivi Commandes</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
@@ -152,8 +155,8 @@ if (!is_logged_in()) {
                 <select name="client_id" required>
                     <option value="">-- Sélectionner un client --</option>
                     <?php foreach ($clients as $client): ?>
-                        <option value="<?= $client['id'] ?>" <?= ($client['id'] == $client_id ? 'selected' : '') ?>>
-                            <?= htmlspecialchars($client['nom']) ?>
+                        <option value="<?= $client['Client_ID'] ?>" <?= ($client['Client_ID'] == $client_id ? 'selected' : '') ?>>
+                            <?= htmlspecialchars($client['Nom_Client']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -177,15 +180,15 @@ if (!is_logged_in()) {
                     <h3>Lots disponibles</h3>
                     <?php foreach ($lots_disponibles as $lot): ?>
                         <?php
-                        $dispo = $lot['quantite'];
-                        $dejajoutee = $_SESSION['commande_en_cours'][$lot['id']] ?? 0;
+                        $dispo = $lot['Quantite_Article'];
+                        $dejajoutee = $_SESSION['commande_en_cours'][$lot['Lot_ID']] ?? 0;
                         $restant = $dispo - $dejajoutee;
                         ?>
                         <?php if ($restant > 0): ?>
                             <form method="POST" class="form-card" style="margin-bottom: 10px;">
-                                <p><?= htmlspecialchars($lot['nom']) ?> (Stock: <?= $restant ?>)</p>
+                                <p><?= htmlspecialchars($lot['Modele_Lot']) ?> (Stock: <?= $restant ?>)</p>
                                 <input type="number" name="quantite" min="1" max="<?= $restant ?>" value="1" required>
-                                <input type="hidden" name="lot_id" value="<?= $lot['id'] ?>">
+                                <input type="hidden" name="lot_id" value="<?= $lot['ID_Article'] ?>">
                                 <button type="submit" name="action" value="ajouter_lot" class="btn">Ajouter</button>
                             </form>
                         <?php else: ?>
@@ -202,17 +205,17 @@ if (!is_logged_in()) {
                     <?php else: ?>
                         <?php
                         $ids = implode(',', array_keys($_SESSION['commande_en_cours']));
-                        $stmt = $pdo->query("SELECT id, nom FROM lot WHERE id IN ($ids)");
+                        $stmt = $pdo->query("SELECT Lot_ID, Modele_Lot FROM lot WHERE Lot_ID IN ($ids)");
                         $infos = $stmt->fetchAll(PDO::FETCH_UNIQUE);
                         foreach ($_SESSION['commande_en_cours'] as $id => $qte):
                             if (!isset($infos[$id])) continue;
                             ?>
                             <div>
-                                <?= htmlspecialchars($infos[$id]['nom']) ?> × <?= $qte ?>
+                                <?= htmlspecialchars($infos[$id]['Modele_Lot']) ?> × <?= $qte ?>
                                 <a href="?retirer=<?= $id ?>" style="color:red; margin-left: 10px;">[X]</a>
                             </div>
                         <?php endforeach; ?>
-                    <?php endif; ?> -->
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
