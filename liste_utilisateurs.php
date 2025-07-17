@@ -54,7 +54,7 @@ $utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id_utilisateur D
         <th>Prénom</th>
         <th>Téléphone</th>
         <th>Rôle</th>
-        <th>Action</th> <!-- Nouvelle colonne -->
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>

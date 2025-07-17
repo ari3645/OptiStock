@@ -10,9 +10,8 @@ if (!$handle) {
     die("Impossible d’ouvrir le fichier CSV.");
 }
 
-fgetcsv($handle); // Ignore la première ligne (en-tête)
+fgetcsv($handle);
 
-// Compteurs de lignes pour affichage final
 $inserted = 0;
 $updated = 0;
 $skipped = 0;
@@ -23,25 +22,21 @@ while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
         $Modele_Article, $Nb_Stock, $Emplacement_ID, $purchase_price, $sales_price
         ) = $data;
 
-    // Nettoyage des valeurs numériques (virgule => point)
     $Nb_Stock = (int) str_replace(',', '.', $Nb_Stock);
     $purchase_price = (float) str_replace(',', '.', $purchase_price);
     $sales_price = (float) str_replace(',', '.', $sales_price);
 
-    // Validation basique
     if (!is_numeric($Nb_Stock) || !is_numeric($purchase_price) || !is_numeric($sales_price)) {
         echo "⚠️ Ligne ignorée : données numériques invalides pour $Numero_Article<br>";
         $skipped++;
         continue;
     }
 
-    // Vérifie si le produit existe déjà par Numero_Article
     $checkStmt = $pdo->prepare("SELECT Nb_Stock FROM article WHERE Numero_Article = ?");
     $checkStmt->execute([$Numero_Article]);
     $existing = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
     if ($existing) {
-        // Ajoute les quantités au stock existant
         $newStock = $existing['Nb_Stock'] + $Nb_Stock;
 
         $updateStmt = $pdo->prepare("
@@ -57,7 +52,6 @@ while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
         ]);
         $updated++;
     } else {
-        // Insertion normale (Article_ID auto-généré)
         $insertStmt = $pdo->prepare("
             INSERT INTO article (
                 Libelle_Article, Numero_Article, Taille, Couleur, Modele_Article,

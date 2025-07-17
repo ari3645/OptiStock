@@ -2,11 +2,6 @@
 require_once 'config/config.php';
 require_once 'includes/functions.php';
 
-//if (!is_logged_in() || $_SESSION['role'] !== 'admin') {
-//    header("Location: index.php");
-//    exit;
-//}
-
  if (!isset($_SESSION['lot_en_cours'])) {
      $_SESSION['lot_en_cours'] = [];
  }
@@ -151,7 +146,6 @@ $vets_disponibles = $stmt->fetchAll();
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-brand">
@@ -182,15 +176,12 @@ $vets_disponibles = $stmt->fetchAll();
         <p class="message-error"><?= $error ?></p>
     <?php endif; ?>
 
-    <!-- Formulaire de recherche -->
 <form method="GET" class="form-card2 search-form">
     <input type="text" name="recherche" placeholder="Recherche..." >
     <button type="submit" class="btn">Rechercher</button>
 </form>
 
     <div class="flex-wrapper" style="margin-top: 30px;">
-
-        <!-- Colonne vêtements -->
         <div class="form-section">
             <h3>Vêtements disponibles</h3>
             <div class="grid-articles">
@@ -221,7 +212,6 @@ $vets_disponibles = $stmt->fetchAll();
             <h3>Lot en cours</h3>
             <div class="lot-en-cours-content">
 
-                <!-- Liste des articles dans le lot -->
                 <div class="lot-articles">
                     <?php if (empty($_SESSION['lot_en_cours'])): ?>
                         <p>Aucun vêtement ajouté.</p>
@@ -242,7 +232,6 @@ $vets_disponibles = $stmt->fetchAll();
                     <?php endif; ?>
                 </div>
 
-                <!-- Formulaire de création -->
                 <div class="lot-formulaire">
                     <form method="POST" class="form-card">
                         <label>Nom du lot :</label>

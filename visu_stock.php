@@ -4,7 +4,6 @@ require_once 'includes/functions.php';
 
     $recherche = isset($_GET['recherche']) ? trim($_GET['recherche']) : '';
 
-    // --- VÊTEMENTS ---
     if (!empty($recherche)) {
         $sql = "SELECT 
                     Libelle_Article,
@@ -38,7 +37,6 @@ require_once 'includes/functions.php';
     }
     $vetements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // --- LOTS ---
     if (!empty($recherche)) {
         $sqlLots = "SELECT Modele_Lot, Quantite_Article 
                     FROM lot 
@@ -69,7 +67,6 @@ require_once 'includes/functions.php';
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-brand">
@@ -93,13 +90,11 @@ require_once 'includes/functions.php';
 
 <h3>Exports / Imports du stock</h3>
 
-<!-- Export -->
 <form method="POST" action="export_csv.php" style="display:inline;">
     <button type="submit" class="btn">📤 Exporter CSV</button>
 </form>
 </br>
 
-<!-- Import -->
 <form method="POST" action="import_csv.php" enctype="multipart/form-data" style="display:inline; margin-left:10px;">
     <input type="file" name="csv_file" accept=".csv" required>
     <button type="submit" class="btn">📥 Importer CSV</button>
@@ -108,13 +103,11 @@ require_once 'includes/functions.php';
 <div class="container">
     <h2>Stocks dans l'entrepôt</h2>
 
-    <!-- Formulaire de recherche -->
     <form method="GET" class="form-card search-form" style="margin-bottom: 20px;">
         <input type="text" name="recherche" placeholder="Recherche globale" class="search-input" value="<?= htmlspecialchars($recherche ?? '') ?>">
         <button type="submit" class="btn search-button">Rechercher</button>
     </form>
 
-    <!-- Vêtements -->
     <h3>Vêtements individuels</h3>
     <table class="user-table">
         <tr>
@@ -141,7 +134,6 @@ require_once 'includes/functions.php';
         <?php endif; ?>
     </table>
 
-    <!-- Lots -->
     <h3>Lots créés</h3>
     <table class="user-table">
         <tr>

@@ -6,15 +6,12 @@ $error = '';
 $cmd = $_POST['select_commande'] ?? $_GET['select_commande'] ?? null;
 $pickings = [];
 
-// --- Étape 2 : Sauvegarde de la progression ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['save_progress']) && $cmd) {
-        // Vider les anciens états
         $stmt = $pdo->prepare("DELETE FROM commande_lot_pick WHERE commande_lot_id IN (
                                 SELECT commande_lot_id FROM commande_lot WHERE commande_id = :id)");
         $stmt->execute(['id' => $cmd]);
 
-        // Insérer les nouveaux pickings
         if (!empty($_POST['cocher'])) {
             $stmtInsert = $pdo->prepare("INSERT INTO commande_lot_pick (commande_lot_id, realise) VALUES (:id, 1)");
             foreach ($_POST['cocher'] as $lot_id) {
@@ -23,41 +20,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // --- Étape 3 : Finaliser la commande ---
     if (isset($_POST['complete_cmd']) && $cmd) {
-        // Tu peux aussi ici vérifier que tous les lots sont cochés avant de valider
 
         $stmt = $pdo->prepare("UPDATE commande SET statut = 'Validée' WHERE Commande_ID = :id");
         $stmt->execute(['id' => $cmd]);
 
-        // Rediriger ou réinitialiser
         header("Location: realiser_commande.php");
         exit;
     }
 }
 
-// --- Étape 4 : Obtenir les commandes en attente ---
 $stmt = $pdo->prepare("SELECT Commande_ID, Numero_Commande, Client_ID FROM commande WHERE statut = 'En attente'");
 $stmt->execute();
 $attentes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// --- Étape 5 : Obtenir les lots de la commande sélectionnée ---
 $lots = [];
 if ($cmd) {
-    // Mettre à jour le statut de la commande à "Confirmée"
     $stmt = $pdo->prepare("UPDATE commande SET statut = 'Confirmée' WHERE Commande_ID = :id AND statut = 'En attente'");
     $stmt->execute(['id' => $cmd]);
     $stmt = $pdo->prepare("SELECT Lot_ID, Quantite_Lot FROM commande WHERE Commande_ID = :id");
     $stmt->execute(['id' => $cmd]);
     $lots = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-//    // --- Étape 6 : Obtenir les lots déjà cochés ---
-//    $stmt = $pdo->prepare("SELECT commande_lot_id FROM commande_lot_pick
-//                           WHERE commande_lot_id IN (
-//                               SELECT commande_lot_id FROM commande_lot WHERE commande_id = :id
-//                           ) AND realise = 1");
-//    $stmt->execute(['id' => $cmd]);
-//    $pickings = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'commande_lot_id');
 }
 ?>
 
@@ -70,7 +53,6 @@ if ($cmd) {
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-brand">
@@ -99,7 +81,6 @@ if ($cmd) {
         <p class="message-error"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
 
-    <!-- Formulaire de sélection de commande -->
     <form method="POST" class="form-card">
         <label>Commandes en attente :</label>
         <select name="select_commande" onchange="this.form.submit()">

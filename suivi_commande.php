@@ -2,24 +2,20 @@
 require_once 'config/config.php';
 require_once 'includes/functions.php';
 
-// Initialisation
 $commandes = [];
 $filtre_statut = $_GET['statut'] ?? '';
 
-// Chargement des statuts disponibles
 try {
     $stmt = $pdo->query("SELECT DISTINCT Statut AS nom FROM commande");
     $statuts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // Ajout d'un identifiant pour faciliter la sélection dans le HTML
     foreach ($statuts as $index => $s) {
-        $statuts[$index]['id'] = $s['nom']; // 'nom' = 'En attente', etc.
+        $statuts[$index]['id'] = $s['nom'];
     }
 } catch (PDOException $e) {
     echo "Erreur lors du chargement des statuts : " . $e->getMessage();
     $statuts = [];
 }
 
-// Chargement des commandes avec ou sans filtre
 try {
     if (!empty($filtre_statut)) {
         $stmt = $pdo->prepare("
@@ -60,7 +56,6 @@ try {
     <title>Suivi des commandes</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Badges de statut */
         .badge-grey { background-color: #888; color: white; padding: 4px 8px; border-radius: 4px; }
         .badge-orange { background-color: orange; color: white; padding: 4px 8px; border-radius: 4px; }
         .badge-green { background-color: green; color: white; padding: 4px 8px; border-radius: 4px; }
@@ -97,7 +92,6 @@ try {
 <div class="container">
     <h2>Suivi des commandes</h2>
 
-    <!-- Filtre par statut -->
     <form method="get" style="margin-bottom: 20px;">
         <label>Filtrer par statut :</label>
         <select name="statut" onchange="this.form.submit()">
@@ -110,7 +104,6 @@ try {
         </select>
     </form>
 
-    <!-- Tableau des commandes -->
     <table class="user-table">
         <thead>
         <tr>

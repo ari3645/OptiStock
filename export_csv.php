@@ -7,14 +7,12 @@ header('Content-Disposition: attachment; filename=articles_export.csv');
 
 $output = fopen('php://output', 'w');
 
-// En-têtes CSV
 fputcsv($output, [
     'Article_ID', 'Libelle_Article', 'Numero_Article',
     'Taille', 'Couleur', 'Modele_Article',
     'Nb_Stock', 'Emplacement_ID', 'purchase_price', 'sales_price'
 ]);
 
-// Données
 $sql = "SELECT * FROM article";
 $stmt = $pdo->query($sql);
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

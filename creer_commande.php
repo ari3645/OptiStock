@@ -7,7 +7,6 @@ if (!is_logged_in()) {
     exit;
 }
 
-// Initialisation
 if (!isset($_SESSION['commande_en_cours'])) {
     $_SESSION['commande_en_cours'] = [];
 }
@@ -26,7 +25,6 @@ if ($client_id) {
     $adresse_client = $stmt->fetchColumn();
 }
 
-// Ajouter un lot
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'ajouter_lot') {
     $lot_id = (int)($_POST['lot_id'] ?? 0);
     $quantite = (int)($_POST['quantite'] ?? 0);
@@ -40,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'ajout
     }
 }
 
-// Vider commande
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'vider_commande') {
     $_SESSION['commande_en_cours'] = [];
 }
@@ -57,7 +54,6 @@ if (isset($_GET['vider'])) {
     exit;
 }
 
-// Créer commande
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creer_commande') {
     if ($nom_commande === '' || $client_id === 0) {
         $error = "Nom de commande et client obligatoires.";
@@ -78,20 +74,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creer
         }
 
         if (!$erreur_stock) {
-            // Encodage JSON des lots
             $lots_array = [];
             foreach ($_SESSION['commande_en_cours'] as $lot_id => $qte) {
                 $lots_array[] = ['lot_id' => $lot_id, 'quantite' => $qte];
             }
             $json_lots = json_encode($lots_array);
 
-            // Insertion commande
             $stmt = $pdo->prepare("INSERT INTO Commande (Numero_Commande, dt_validation, Statut, Client_ID, Composition_Lots) VALUES (?, GETDATE(), 'En attente', ?, ?)");
             $stmt->execute([$nom_commande, $client_id, $json_lots]);
 
             $commande_id = $pdo->lastInsertId();
 
-            // Décrémenter le stock des lots
             foreach ($_SESSION['commande_en_cours'] as $lot_id => $qte) {
                 $update = $pdo->prepare("UPDATE Lot SET Nb_Lots = Nb_Lots - ? WHERE Lot_ID = ?");
                 $update->execute([$qte, $lot_id]);
@@ -110,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creer
     }
 }
 
-// Charger uniquement les lots disponibles
 $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Nb_Lots > 0")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -123,7 +115,6 @@ $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Nb_Lots > 0")->fetchAll
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-brand">
@@ -155,7 +146,6 @@ $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Nb_Lots > 0")->fetchAll
     <?php endif; ?>
 
     <div class="flex-global">
-        <!-- Colonne gauche : Création de la commande -->
         <div class="left-section">
             <form method="POST" class="form-card">
                 <label>Nom de la commande :</label>
@@ -182,10 +172,8 @@ $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Nb_Lots > 0")->fetchAll
             </form>
         </div>
 
-        <!-- Colonne droite : Affichage lots + commande -->
         <div class="right-section">
             <div class="flex-tables">
-                <!-- Lots disponibles -->
                 <div class="lots-section">
                     <h3>Lots disponibles</h3>
                     <?php foreach ($lots_disponibles as $lot): ?>
@@ -214,7 +202,6 @@ $lots_disponibles = $pdo->query("SELECT * FROM lot WHERE Nb_Lots > 0")->fetchAll
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Commande en cours -->
                 <div class="commande-section">
                     <h3>Commande en cours</h3>
                     <?php

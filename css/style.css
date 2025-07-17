@@ -1,4 +1,3 @@
-/* Général */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #FFF0F5;
@@ -16,14 +15,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* pour occuper toute la hauteur de l'écran */
+    height: 100vh;
 }
 
 .login-page .login-container {
-    margin: 0; /* annule tout margin résiduel */
+    margin: 0;
 }
 
-/* Login Container */
 .login-container {
     background-color: white;
     padding: 40px;
@@ -38,7 +36,6 @@ body {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Logo */
 .logo {
     display: block;
     margin: 0 auto 20px auto;
@@ -102,7 +99,6 @@ input[type="submit"]:hover {
     font-weight: bold;
 }
 
-/* Navbar */
 .navbar {
     background-color: #E5C3F1;
     padding: 15px 30px;
@@ -155,7 +151,6 @@ input[type="submit"]:hover {
     background-color: #FFC1C1;
 }
 
-/* Form Cards */
 .form-card {
     background-color: #f9f9f9;
     padding: 20px;
@@ -194,7 +189,6 @@ input[type="submit"]:hover {
     transform: scale(1.02);
 }
 
-/* Messages */
 .message-success {
     color: green;
     margin-bottom: 15px;
@@ -211,7 +205,6 @@ input[type="submit"]:hover {
     border-radius: 4px;
 }
 
-/* Table */
 .user-table {
     width: 100%;
     border-collapse: collapse;
@@ -228,7 +221,6 @@ input[type="submit"]:hover {
     background-color: #f4f4f4;
 }
 
-/* Secondary Buttons */
 .btn-secondary {
     display: block;
     margin: 20px auto 0;
@@ -246,7 +238,6 @@ input[type="submit"]:hover {
     transform: scale(1.02);
 }
 
-/* Focus Effects */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
@@ -257,33 +248,26 @@ input[type="number"]:focus,
     box-shadow: 0 0 5px rgba(229, 195, 241, 0.8);
 }
 
-/* Layout for Commande Page */
-
-/* Global Layout */
 .flex-global {
     display: flex;
     justify-content: space-between;
     gap: 40px;
 }
 
-/* Left Column: Formulaire */
 .left-section {
     width: 40%;
 }
 
-/* Right Column: Lots et Commande */
 .right-section {
     width: 60%;
 }
 
-/* Lots et Commande Côté à Côté */
 .flex-tables {
     display: flex;
     justify-content: space-between;
     gap: 20px;
 }
 
-/* Lots et Commande Sections */
 .lots-section,
 .commande-section {
     width: 48%;
@@ -291,7 +275,6 @@ input[type="number"]:focus,
     overflow-y: auto;
 }
 
-/* Button Groups (Créer / Vider) */
 .button-group {
     display: flex;
     justify-content: flex-start;
@@ -312,7 +295,6 @@ input[type="number"]:focus,
     transform: scale(1.02);
 }
 
-/* Search Bar */
 .search-form {
     display: flex;
     align-items: center;
@@ -339,7 +321,6 @@ input[type="number"]:focus,
     transform: scale(1.02);
 }
 
-/* Responsive Layout */
 @media (max-width: 1000px) {
     .flex-global {
         flex-direction: column;
@@ -381,7 +362,7 @@ input[type="number"]:focus,
 .lot-item {
     border: 1px solid #ccc;
     padding: 10px;
-    width: calc(25% - 20px); /* 4 par ligne */
+    width: calc(25% - 20px);
     box-sizing: border-box;
     text-align: center;
     border-radius: 5px;
@@ -420,7 +401,7 @@ input[type="number"] {
 }
 
 .form-card2 {
-    width: calc(33.33% - 10px); /* 3 par ligne */
+    width: calc(33.33% - 10px);
     min-height: auto;
     padding: 10px;
     border: 1px solid #ddd;
@@ -455,15 +436,14 @@ input[type="number"] {
 
 @media (max-width: 1000px) {
     .form-card2 {
-        width: calc(50% - 10px); /* 2 par ligne sur petit écran */
+        width: calc(50% - 10px);
     }
 
     .form-section:last-child {
-        display: none; /* On peut cacher la colonne droite sur mobile si besoin */
+        display: none;
     }
 }
 
-/* Container pour lot en cours fixé à droite */
 .lot-en-cours-wrapper {
     position: sticky;
     top: 90px;
@@ -477,14 +457,12 @@ input[type="number"] {
     align-self: flex-start;
 }
 
-/* Conteneur vertical : liste au-dessus, formulaire en dessous */
 .lot-en-cours-content {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Liste d'articles */
 .lot-articles {
     max-height: 250px;
     overflow-y: auto;
@@ -493,13 +471,11 @@ input[type="number"] {
     border-bottom: 1px solid #ccc;
 }
 
-/* Formulaire */
 .lot-formulaire .form-card2 {
     width: 100%;
     box-sizing: border-box;
 }
 
-/* Corriger padding / marges internes pour qu'il s'étale bien */
 .lot-formulaire input[type="text"],
 .lot-formulaire input[type="number"],
 .lot-formulaire input,
@@ -511,14 +487,12 @@ input[type="number"] {
     box-sizing: border-box;
 }
 
-/* Limiter l'espace utilisé par défaut */
 .flex-wrapper {
     display: flex;
     gap: 20px;
     align-items: flex-start;
 }
 
-/* Colonne gauche pour les articles */
 .articles-section {
     flex: 1;
     max-width: 70%;

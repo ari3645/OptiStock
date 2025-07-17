@@ -4,7 +4,6 @@ require_once 'includes/functions.php';
 
 $commande_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Charger les infos de la commande
 $stmt = $pdo->prepare("SELECT * FROM commande WHERE Commande_ID = ?");
 $stmt->execute([$commande_id]);
 $commande = $stmt->fetch();
@@ -14,12 +13,10 @@ if (!$commande) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. Récupérer les anciennes valeurs AVANT la suppression
     $stmt_old = $pdo->prepare("SELECT dt_creation, dt_validation, date_expedition, date_expedition_prevue, livreur, retard, commande_retard, categorie_retard FROM commande WHERE Commande_ID = ?");
     $stmt_old->execute([$commande_id]);
     $ancienne_commande = $stmt_old->fetch(PDO::FETCH_ASSOC);
 
-    // 2. Supprimer les anciennes lignes liées à cette commande
     $pdo->prepare("DELETE FROM commande WHERE Commande_ID = ?")->execute([$commande_id]);
 
     $lots = $_POST['lot_id'] ?? [];
@@ -34,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $prix_lot = $stmt->fetchColumn();
 
             if ($prix_lot !== false) {
-                // 3. Insérer les nouvelles lignes avec les anciennes valeurs si présentes
                 $pdo->prepare("
                     INSERT INTO commande (
                         Numero_Commande, Id_Createur_Commande, Client_ID, Lot_ID, Quantite_Lot, Prix_Total_Commande, Statut,
@@ -51,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $prix_lot * $quantite,
                     $commande['Statut'],
 
-                    // Valeurs conservées ou null
                     $ancienne_commande['dt_creation'] ?? null,
                     $ancienne_commande['dt_validation'] ?? null,
                     $ancienne_commande['date_expedition'] ?? null,
@@ -69,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// === Récupérer les lots déjà présents dans la commande ===
 $lots_commande = $pdo->prepare("
     SELECT c.Lot_ID, c.Quantite_Lot AS Quantite, l.Numero_Lot
     FROM commande c
@@ -79,7 +73,6 @@ $lots_commande = $pdo->prepare("
 $lots_commande->execute([$commande_id]);
 $lots_actuels = $lots_commande->fetchAll();
 
-// === Récupérer tous les autres lots disponibles non inclus dans la commande ===
 $lots_ids_inclus = array_column($lots_actuels, 'Lot_ID');
 $placeholders = implode(',', array_fill(0, count($lots_ids_inclus), '?'));
 
