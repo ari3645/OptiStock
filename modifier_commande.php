@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $lots_commande = $pdo->prepare("
-    SELECT c.Lot_ID, c.Quantite_Lot AS Quantite, l.Numero_Lot
+    SELECT c.Lot_ID, c.Quantite_Lot AS Quantite, l.Modele_Lot
     FROM commande c
     JOIN lot l ON c.Lot_ID = l.Lot_ID
     WHERE c.Commande_ID = ?
@@ -77,10 +77,10 @@ $lots_ids_inclus = array_column($lots_actuels, 'Lot_ID');
 $placeholders = implode(',', array_fill(0, count($lots_ids_inclus), '?'));
 
 if (count($lots_ids_inclus) > 0) {
-    $stmt = $pdo->prepare("SELECT Lot_ID, Numero_Lot FROM lot WHERE Lot_ID NOT IN ($placeholders)");
+    $stmt = $pdo->prepare("SELECT Lot_ID, Modele_Lot FROM lot WHERE Lot_ID NOT IN ($placeholders)");
     $stmt->execute($lots_ids_inclus);
 } else {
-    $stmt = $pdo->query("SELECT Lot_ID, Numero_Lot FROM lot");
+    $stmt = $pdo->query("SELECT Lot_ID, Modele_Lot FROM lot");
 }
 $lots_non_inclus = $stmt->fetchAll();
 ?>
@@ -113,7 +113,7 @@ $lots_non_inclus = $stmt->fetchAll();
         <div class="lots-grille">
             <?php foreach ($lots_non_inclus as $lot): ?>
                 <div class="lot-item">
-                    <strong><?= htmlspecialchars($lot['Numero_Lot']) ?></strong><br>
+                    <strong><?= htmlspecialchars($lot['Modele_Lot']) ?></strong><br>
                     <input type="number" name="quantite[]" min="0" value="0"><br>
                     <input type="hidden" name="lot_id[]" value="<?= $lot['Lot_ID'] ?>">
                 </div>

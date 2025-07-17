@@ -121,7 +121,6 @@ if ($cmd) {
             </table>
 
             <div class="button-group" style="margin-top: 15px;">
-                <button type="submit" name="save_progress" class="btn">Sauvegarder</button>
                 <button type="submit" name="complete_cmd" class="btn-secondary">Marquer comme prête</button>
             </div>
         </form>
