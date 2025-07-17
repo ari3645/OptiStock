@@ -102,10 +102,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <ul class="navbar-menu">
             <li><a href="index.php">Accueil</a></li>
-            <li><a href="ajouter_lot.php">Créer Lot</a></li>
+            <li><a href="ajout_employe.php">Ajouter Employé</a></li>
+            <li><a href="creer_lot.php">Créer Lot</a></li>
             <li><a href="creer_commande.php">Créer Commande</a></li>
-            <li><a href="realisation_commande.php">Réaliser Commande</a></li>
-
+            <li><a href="realiser_commande.php">Réaliser Commande</a></li>
+            <li><a href="reception_commande.php" class="active">Réception Fournisseur</a></li>
+            <li><a href="suivi_commande.php">Suivi Commandes</a></li>
+            <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
     </div>

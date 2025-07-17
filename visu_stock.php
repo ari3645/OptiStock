@@ -83,7 +83,8 @@ require_once 'includes/functions.php';
             <li><a href="creer_commande.php">Créer Commande</a></li>
             <li><a href="realiser_commande.php">Réaliser Commande</a></li>
             <li><a href="reception_commande.php">Réception Fournisseur</a></li>
-            <li><a href="suivi_commande.php" class="active">Suivi Commandes</a></li>
+            <li><a href="suivi_commande.php">Suivi Commandes</a></li>
+            <li><a href="visu_stock.php" class="active">Stocks</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>

@@ -2,8 +2,8 @@
 require_once 'config/config.php';
 require_once 'includes/functions.php';
 
-//if (!is_logged_in() || $_SESSION['role'] !== 'manager') {
-//    header("Location: login.php");
+//if (!is_logged_in() || $_SESSION['role'] !== 'admin') {
+//    header("Location: index.php");
 //    exit;
 //}
 
@@ -44,53 +44,73 @@ require_once 'includes/functions.php';
  $success = "";
  $error = "";
 
- if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['creer_lot'])) {
-     $nom_lot = trim($_POST['nom_lot']);
-     $nb_lots = max(1, (int)$_POST['nb_lots']);
-     $lot_items = $_SESSION['lot_en_cours'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['creer_lot'])) {
+    $nom_lot = trim($_POST['nom_lot']);
+    $nb_lots = max(1, (int)$_POST['nb_lots']);
+    $lot_items = $_SESSION['lot_en_cours'];
+    $prix_total_lot = 0;
+    $quantite_total_articles = 0;
 
-     if (empty($nom_lot)) {
-         $error = "Veuillez entrer un nom de lot.";
-     } elseif (empty($lot_items)) {
-         $error = "Aucun vêtement ajouté au lot.";
-     } else {
-         $manager_id = get_user_reference_id($pdo, $_SESSION['user_id']);
-         $erreur_stock = false;
+    if (empty($nom_lot)) {
+        $error = "Veuillez entrer un nom de lot.";
+    } elseif (empty($lot_items)) {
+        $error = "Aucun vêtement ajouté au lot.";
+    } else {
+        $manager_id = $_SESSION['Id_utilisateur'];
+        $erreur_stock = false;
+        $composition = [];
 
-         foreach ($lot_items as $vet_id => $qte_par_lot) {
-             $check = $pdo->prepare("SELECT Nb_Stock, Libelle_Article FROM Article WHERE Article_ID = ?");
-             $check->execute([$vet_id]);
-             $data = $check->fetch();
+        foreach ($lot_items as $vet_id => $qte_par_lot) {
+            $check = $pdo->prepare("SELECT Nb_Stock, Libelle_Article, sales_price FROM Article WHERE Article_ID = ?");
+            $check->execute([$vet_id]);
+            $data = $check->fetch();
 
-             $dispo = (int)$data['Nb_Stock'];
-             $nom_vet = $data['Libelle_Article'];
-             $qte_totale = $qte_par_lot * $nb_lots;
+            if (!$data) continue;
 
-             if ($dispo < $qte_totale) {
-                 $error = "Stock insuffisant pour <strong>$nom_vet</strong> (disponible : $dispo, demandé : $qte_totale)";
-                 $erreur_stock = true;
-                 break;
-             }
-         }
+            $dispo = (int)$data['Nb_Stock'];
+            $nom_vet = $data['Libelle_Article'];
+            $prix_unitaire = (float)$data['sales_price'];
+            $qte_totale = $qte_par_lot * $nb_lots;
 
-         if (!$erreur_stock) {
-             $stmt = $pdo->prepare("INSERT INTO Lot (Modele_Lot, Createur_Lot, quantite) VALUES (?, ?, ?)");
-             $stmt->execute([$nom_lot, $manager_id, $nb_lots]);
-             $lot_id = $pdo->lastInsertId();
+            if ($dispo < $qte_totale) {
+                $error = "Stock insuffisant pour <strong>$nom_vet</strong> (disponible : $dispo, demandé : $qte_totale)";
+                $erreur_stock = true;
+                break;
+            }
 
-             foreach ($lot_items as $vet_id => $qte_par_lot) {
-                 $insert = $pdo->prepare("INSERT INTO lot_vetement (lot_id, vetement_id, quantite) VALUES (?, ?, ?)");
-                 $insert->execute([$lot_id, $vet_id, $qte_par_lot]);
+            $prix_total_lot += $prix_unitaire * $qte_par_lot;
+            $quantite_total_articles += $qte_par_lot;
 
-                 $update = $pdo->prepare("UPDATE vetement SET quantite = quantite - ? WHERE id = ?");
-                 $update->execute([$qte_par_lot * $nb_lots, $vet_id]);
-             }
+            $composition[] = [
+                'article_id' => $vet_id,
+                'libelle' => $nom_vet,
+                'quantite' => $qte_par_lot,
+                'sales_price' => $prix_unitaire
+            ];
+        }
 
-             $_SESSION['lot_en_cours'] = [];
-             $success = "Lot '$nom_lot' (x$nb_lots) créé avec succès.";
-         }
-     }
- }
+        if (!$erreur_stock) {
+            $json_composition = json_encode($composition, JSON_UNESCAPED_UNICODE);
+
+            $stmt = $pdo->prepare("
+                INSERT INTO Lot (Modele_Lot, Createur_Lot, Nb_Lots, Prix_Lot, Composition, Quantite_Article)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([
+                $nom_lot,
+                $manager_id,
+                $nb_lots,
+                $prix_total_lot,
+                $json_composition,
+                $quantite_total_articles
+            ]);
+
+            $_SESSION['lot_en_cours'] = [];
+            $success = "Lot '$nom_lot' (x$nb_lots) créé avec succès.";
+        }
+    }
+}
+
 
 $mot_cle = trim($_GET['recherche'] ?? "");
 
@@ -141,11 +161,12 @@ $vets_disponibles = $stmt->fetchAll();
         <ul class="navbar-menu">
             <li><a href="index.php">Accueil</a></li>
             <li><a href="ajout_employe.php">Ajouter Employé</a></li>
-            <li><a href="creer_lot.php">Créer Lot</a></li>
+            <li><a href="creer_lot.php" class="active">Créer Lot</a></li>
             <li><a href="creer_commande.php">Créer Commande</a></li>
             <li><a href="realiser_commande.php">Réaliser Commande</a></li>
             <li><a href="reception_commande.php">Réception Fournisseur</a></li>
-            <li><a href="suivi_commande.php" class="active">Suivi Commandes</a></li>
+            <li><a href="suivi_commande.php">Suivi Commandes</a></li>
+            <li><a href="visu_stock.php">Stocks</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>

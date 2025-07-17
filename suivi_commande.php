@@ -87,6 +87,7 @@ try {
             <li><a href="realiser_commande.php">Réaliser Commande</a></li>
             <li><a href="reception_commande.php">Réception Fournisseur</a></li>
             <li><a href="suivi_commande.php" class="active">Suivi Commandes</a></li>
+            <li><a href="visu_stock.php">Stocks</a></li>
             <li><a href="liste_utilisateurs.php">Liste Utilisateurs</a></li>
             <li><a href="logout.php">Déconnexion</a></li>
         </ul>
