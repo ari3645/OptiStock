@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="login-page">
 
 <div class="login-container">
-    <img src="images/logo.png" alt="Logo" class="logo">
+    <img src="images/logo.svg" alt="Logo" class="logo">
     <h2>Connexion</h2>
     <form id="loginForm" method="POST" onsubmit="return validateForm()">
         <label for="Email">Email:</label>

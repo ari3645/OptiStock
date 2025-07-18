@@ -24,7 +24,7 @@ $utilisateurs = $pdo->query("SELECT * FROM utilisateur ORDER BY id_utilisateur D
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-brand">
-            <img src="images/logo.png" alt="Logo OptiStock" class="navbar-logo-img">
+            <img src="images/logo.svg" alt="Logo OptiStock" class="navbar-logo-img">
             <a href="index.php" class="navbar-logo">OptiStock</a>
         </div>
 

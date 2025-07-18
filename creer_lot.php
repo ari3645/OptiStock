@@ -118,7 +118,7 @@ if (!is_logged_in() || $_SESSION['role'] !== 'manager') {
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-brand">
-            <img src="images/logo.png" alt="Logo OptiStock" class="navbar-logo-img">
+            <img src="images/logo.svg" alt="Logo OptiStock" class="navbar-logo-img">
             <a href="index.php" class="navbar-logo">OptiStock</a>
         </div>
         <ul class="navbar-menu">
